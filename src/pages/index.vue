@@ -18,24 +18,40 @@
           <i class="bx bx-rocket"></i><span>Connect to wallet</span>
         </vs-button>
       </template>
-      <div v-else>{{ address }}</div>
+      <div v-else>
+        <template
+          v-if="
+            getYearnCurrentUserBalances &&
+            getYearnCurrentUserBalances.length > 0
+          "
+        >
+          <div>Yearn</div>
+          <div v-for="y in getYearnCurrentUserBalances" :key="y.name">
+            {{ y.name }} : ${{ y.invested.toFixed(2) }} :
+            {{ (y.apy * 100).toFixed(2) }}% apy
+          </div>
+        </template>
+      </div>
     </vs-col>
   </vs-row>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapState({
       isLogged: (state) => state.ethers.connected,
       address: (state) => state.ethers.address,
     }),
+    ...mapGetters({
+      getYearnCurrentUserBalances: 'yearn/getYearnCurrentUserBalances',
+    }),
   },
   watch: {
     address(a) {
       if (a) {
-        this.$store.dispatch('yearn/get')
+        this.$store.dispatch('yearn/fetch')
       }
     },
   },
