@@ -7,6 +7,9 @@
       square
       :class="$style.navbar"
     >
+      <template #left>
+        <div :class="$style.title">Stable income</div>
+      </template>
       <template #right>
         <vs-button
           v-if="!isLogged"
@@ -73,6 +76,11 @@ export default {
   --vs-shadow-opacity .3
   --vs-dark 0,0,0
   --vs-background-opacity .6
+
+.vs-button i
+  margin-right 5px
+body
+  font-family Arial, Helvetica, sans-serif
 </style>
 
 <style>
@@ -85,9 +93,11 @@ body {
 <style lang="stylus" module>
 .container
   .navbar
-    i
-      margin-right 5px
+    text-align center
+    .title
+      font-size 1.2em
   .content
     width 900px
     margin 44px auto 0 auto
+    padding-top 20px
 </style>
