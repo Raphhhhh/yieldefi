@@ -20,13 +20,11 @@
       </template>
       <div v-else>
         <template v-if="projects && projects.length > 0">
-          <div v-for="project in projects" :key="project">
-            <div>{{ project }}</div>
-            <div v-for="pos in positionsByKey(project)" :key="pos.name">
-              {{ pos.name }} : ${{ pos.invested.toFixed(2) }} :
-              {{ (pos.apy * 100).toFixed(2) }}% apy
-            </div>
-          </div>
+          <project
+            v-for="project in projects"
+            :key="project"
+            :project="project"
+          />
         </template>
       </div>
     </vs-col>
@@ -35,7 +33,11 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import Project from '~/components/project'
 export default {
+  components: {
+    Project,
+  },
   computed: {
     ...mapState({
       isLogged: (state) => state.ethers.connected,
@@ -43,7 +45,6 @@ export default {
     }),
     ...mapGetters({
       projects: 'user/getProjects',
-      positionsByKey: 'user/getPositionsByKey',
     }),
   },
   watch: {
