@@ -11,15 +11,36 @@
         <div :class="$style.title">Stable income</div>
       </template>
       <template #right>
-        <vs-button
-          v-if="!isLogged"
-          gradient
-          :class="$style.connect"
-          @click="connect"
-        >
-          <i class="bx bx-rocket"></i><span>Connect to wallet</span>
-        </vs-button>
+        <template v-if="!isLogged">
+          <vs-button gradient :class="$style.connect" @click="connect">
+            <i class="bx bx-rocket"></i><span>Connect to wallet</span>
+          </vs-button>
+        </template>
         <template v-else>
+          <vs-input
+            v-model="forceAddress"
+            placeholder="Spy for an 0x"
+          ></vs-input>
+          <template v-if="forceAddress">
+            <vs-button
+              icon
+              gradient
+              success
+              :class="$style.iconButton"
+              @click="validateForceAddress"
+            >
+              <i class="bx bxs-check-circle"></i>
+            </vs-button>
+            <vs-button
+              icon
+              gradient
+              danger
+              :class="$style.iconButton"
+              @click="cancelForceAddress"
+            >
+              <i class="bx bxs-x-circle"></i>
+            </vs-button>
+          </template>
           <vs-button transparent active warn>{{ address }}</vs-button>
           <vs-button
             gradient
@@ -42,6 +63,11 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      forceAddress: '',
+    }
+  },
   computed: {
     ...mapState({
       isLogged: (state) => state.ethers.connected,
@@ -54,6 +80,13 @@ export default {
     },
     disconnect() {
       this.$store.dispatch('ethers/disconnect')
+    },
+    validateForceAddress() {
+      this.$store.commit('ethers/address', this.forceAddress)
+    },
+    cancelForceAddress() {
+      this.forceAddress = ''
+      this.$store.dispatch('ethers/connect')
     },
   },
 }
@@ -96,6 +129,9 @@ body {
     text-align center
     .title
       font-size 1.2em
+    .iconButton
+      i
+        margin-right 0
   .content
     width 900px
     margin 44px auto 0 auto

@@ -1,5 +1,5 @@
 <template>
-  <vs-row>
+  <vs-row v-if="positionsByKey(project) && positionsByKey(project).length > 0">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
       <vs-row>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">

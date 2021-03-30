@@ -7,14 +7,8 @@
       w="12"
       :class="$style.container"
     >
-      <template v-if="!isLogged">
-        <vs-button
-          v-if="!isLogged"
-          gradient
-          size="xl"
-          :class="$style.connect"
-          @click="connect"
-        >
+      <template v-if="!address">
+        <vs-button gradient size="xl" :class="$style.connect" @click="connect">
           <i class="bx bx-rocket"></i><span>Connect to wallet</span>
         </vs-button>
       </template>
@@ -39,7 +33,6 @@ export default {
   },
   computed: {
     ...mapState({
-      isLogged: (state) => state.ethers.connected,
       address: (state) => state.ethers.address,
     }),
     ...mapGetters({

@@ -10,20 +10,30 @@ export const getters = {
       !state.userVaults ||
       !rootState.ethers.address ||
       state.vaults.length === 0 ||
-      state.userVaults.length === 0
+      state.userVaults.length === 0 ||
+      !state.userVaults[rootState.ethers.address.toLowerCase()]
     ) {
       return []
     }
-    return state.userVaults[rootState.ethers.address.toLowerCase()].map((u) => {
-      const vault = state.vaults.find(
-        (v) => v.address.toLowerCase() === u.address.toLowerCase()
+    return state.userVaults[rootState.ethers.address.toLowerCase()]
+      .filter(
+        (u) =>
+          u.label.toLowerCase().includes('usd') ||
+          u.label.toLowerCase().includes('3crv') ||
+          u.label.toLowerCase().includes('crvib') ||
+          u.label.toLowerCase().includes('aave') ||
+          u.label.toLowerCase().includes('dai')
       )
-      return {
-        name: u.label,
-        invested: u.balance,
-        apy: vault.apy.data.netApy,
-      }
-    })
+      .map((u) => {
+        const vault = state.vaults.find(
+          (v) => v.address.toLowerCase() === u.address.toLowerCase()
+        )
+        return {
+          name: u.label,
+          invested: u.balance,
+          apy: vault.apy.data.netApy,
+        }
+      })
   },
 }
 

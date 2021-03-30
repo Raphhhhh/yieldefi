@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { getProvider, getWalletAddress } from '~/helpers/ethersConnect'
+import { getProvider } from '~/helpers/ethersConnect'
 import * as addresses from '~/contracts/stakeDaoAddresses'
 
 export const state = () => ({
@@ -56,7 +56,10 @@ async function _getBalance(ctx, contractAddress, stateTarget, poolId = 2) {
     getProvider()
   )
   if (contract) {
-    const balance = await contract.userInfo(poolId, getWalletAddress())
+    const balance = await contract.userInfo(
+      poolId,
+      ctx.rootState.ethers.address
+    )
     ctx.commit(stateTarget, ethers.utils.formatUnits(balance[0], 18))
   }
 }
