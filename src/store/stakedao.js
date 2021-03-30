@@ -2,54 +2,70 @@ import { ethers } from 'ethers'
 import { getProvider } from '~/helpers/ethersConnect'
 import * as addresses from '~/contracts/stakeDaoAddresses'
 
+const stakeDaoVault = {
+  sdEurs: 'sdEurs',
+  sd3Pools: 'sd3Pools',
+}
+
 export const state = () => ({
-  threePoolUserBalance: 0,
-  eursUserBalance: 0,
-  fullPricePerShare: 0,
-  virtualPrice: 0,
+  balance: {},
+  fullPricePerShare: {},
+  virtualPrice: {},
 })
 
 export const getters = {
   get(state, getters, rootState) {
-    return {
-      threePoolBalance: state.threePoolUserBalance,
-      eursBalance: state.eursUserBalance,
-      fullPricePerShare: state.fullPricePerShare,
-      virtualPrice: state.virtualPrice,
-    }
+    return [
+      {
+        name: 'sdEurs',
+        invested:
+          state.balance[stakeDaoVault.sdEurs] *
+          state.fullPricePerShare[stakeDaoVault.sdEurs] *
+          state.virtualPrice[stakeDaoVault.sdEurs],
+        apy: 69,
+      },
+      {
+        name: 'sd3Pools',
+        invested:
+          state.balance[stakeDaoVault.sd3Pools] *
+          state.fullPricePerShare[stakeDaoVault.sd3Pools] *
+          state.virtualPrice[stakeDaoVault.sd3Pools],
+        apy: 69,
+      },
+    ]
   },
 }
 
 export const mutations = {
-  setThreePoolBalance(state, v) {
-    state.threePoolBalance = v
+  setBalance(state, { b, v }) {
+    state.balance[v] = b
   },
-  setEursBalance(state, b) {
-    state.eursUserBalance = b
+  setFullPricePerShare(state, { pps, v }) {
+    state.fullPricePerShare[v] = pps
   },
-  setFullPricePerShare(state, pps) {
-    state.fullPricePerShare = pps
-  },
-  setVirtualPrice(state, vp) {
-    state.virtualPrice = vp
+  setVirtualPrice(state, { vp, v }) {
+    state.virtualPrice[v] = vp
   },
 }
 
 export const actions = {
   async fetch(ctx) {
-    await _getBalance(ctx, addresses.stakeContractAddress, 'setEursBalance')
+    await _getBalance(ctx, addresses.stakeContractAddress, stakeDaoVault.sdEurs)
     await _getBalance(
       ctx,
       addresses.stakeContractAddress,
-      'setThreePoolBalance',
+      stakeDaoVault.sd3Pools,
       1
     )
-    await _getFullPricePerShare(ctx)
-    await _getVirtualPrice(ctx)
+    await _getFullPricePerShare(ctx, stakeDaoVault.sdEurs)
+    await _getFullPricePerShare(ctx, stakeDaoVault.sd3Pools)
+
+    await _getVirtualPrice(ctx, stakeDaoVault.sdEurs)
+    await _getVirtualPrice(ctx, stakeDaoVault.sd3Pools)
   },
 }
 
-async function _getBalance(ctx, contractAddress, stateTarget, poolId = 2) {
+async function _getBalance(ctx, contractAddress, vault, poolId = 2) {
   const contract = new ethers.Contract(
     contractAddress,
     addresses.baseAbi,
@@ -60,34 +76,53 @@ async function _getBalance(ctx, contractAddress, stateTarget, poolId = 2) {
       poolId,
       ctx.rootState.ethers.address
     )
-    ctx.commit(stateTarget, ethers.utils.formatUnits(balance[0], 18))
+    ctx.commit('setBalance', {
+      b: ethers.utils.formatUnits(balance[0], 18),
+      v: vault,
+    })
   }
 }
 
-async function _getFullPricePerShare(ctx) {
+async function _getFullPricePerShare(ctx, v) {
   let result = 0
+  const contractAddress =
+    v === stakeDaoVault.sd3Pools
+      ? addresses.stakeDaoCurve3poolsCRVContract
+      : addresses.stakeDaoCurveFiEurssEurContract
+
   const contract = new ethers.Contract(
-    addresses.stakeDaoCurveFiEurssEurContract,
+    contractAddress,
     addresses.baseAbi,
     getProvider()
   )
 
   if (contract) {
     result = await contract.getPricePerFullShare()
-    ctx.commit('setFullPricePerShare', ethers.utils.formatUnits(result, 18))
+    ctx.commit('setFullPricePerShare', {
+      pps: ethers.utils.formatUnits(result, 18),
+      v,
+    })
   }
 }
 
-async function _getVirtualPrice(ctx) {
+async function _getVirtualPrice(ctx, v) {
   let result = 0
+  const contractAddress =
+    v === stakeDaoVault.sd3Pools
+      ? addresses.curveFinance3PoolContract
+      : addresses.curveFinanceEursCRVEursContract
+
   const contract = new ethers.Contract(
-    addresses.curveFinanceEursCRVEursContract,
+    contractAddress,
     addresses.baseAbi,
     getProvider()
   )
 
   if (contract) {
     result = await contract.get_virtual_price()
-    ctx.commit('setVirtualPrice', ethers.utils.formatUnits(result, 18))
+    ctx.commit('setVirtualPrice', {
+      vp: ethers.utils.formatUnits(result, 18),
+      v,
+    })
   }
 }
