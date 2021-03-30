@@ -27,10 +27,15 @@
               w="4"
               offset="4"
             >
-              ${{ totalInvestedByProject(project).toFixed(2) }}
+              {{ vueNumberFormat(totalInvestedByProject(project)) }}
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
-              {{ (totalApyByProject(project) * 100).toFixed(2) }}% apy
+              {{
+                vueNumberFormat(totalApyByProject(project) * 100, {
+                  prefix: '',
+                  suffix: '%',
+                })
+              }}
             </vs-col>
           </vs-row>
         </vs-col>
@@ -48,13 +53,13 @@
               Income:
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              ${{ incomePerProjectPerDay(project).toFixed(2) }} /day
+              {{ vueNumberFormat(incomePerProjectPerDay(project)) }} /day
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              ${{ incomePerProjectPerMonth(project).toFixed(2) }} /month
+              {{ vueNumberFormat(incomePerProjectPerMonth(project)) }} /month
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              ${{ incomePerProjectPerYear(project).toFixed(2) }} /year
+              {{ vueNumberFormat(incomePerProjectPerYear(project)) }} /year
             </vs-col>
           </vs-row>
         </vs-col>

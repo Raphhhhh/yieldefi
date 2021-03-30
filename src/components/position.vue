@@ -4,10 +4,10 @@
       {{ position.name }}
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
-      ${{ position.invested.toFixed(2) }}
+      {{ vueNumberFormat(position.invested) }}
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
-      {{ (position.apy * 100).toFixed(2) }}% apy
+      {{ vueNumberFormat(position.apy * 100, { prefix: '', suffix: '%' }) }}
     </vs-col>
   </vs-row>
 </template>
