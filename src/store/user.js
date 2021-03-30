@@ -4,6 +4,7 @@ export const getters = {
   getAllPositions(state, getters, rootState, rootGetters) {
     return {
       yearn: rootGetters['yearn/get'],
+      stakedao: rootGetters['stakedao/get'],
     }
   },
   getProjects(state, getters) {
