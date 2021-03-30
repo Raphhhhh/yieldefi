@@ -4,7 +4,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  getYearnCurrentUserBalances(state, getters, rootState) {
+  get(state, getters, rootState) {
     if (
       !state.vaults ||
       !state.userVaults ||
@@ -19,7 +19,6 @@ export const getters = {
         (v) => v.address.toLowerCase() === u.address.toLowerCase()
       )
       return {
-        family: 'yearn',
         name: u.label,
         invested: u.balance,
         apy: vault.apy.data.netApy,

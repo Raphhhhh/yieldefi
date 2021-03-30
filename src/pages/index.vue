@@ -19,16 +19,13 @@
         </vs-button>
       </template>
       <div v-else>
-        <template
-          v-if="
-            getYearnCurrentUserBalances &&
-            getYearnCurrentUserBalances.length > 0
-          "
-        >
-          <div>Yearn</div>
-          <div v-for="y in getYearnCurrentUserBalances" :key="y.name">
-            {{ y.name }} : ${{ y.invested.toFixed(2) }} :
-            {{ (y.apy * 100).toFixed(2) }}% apy
+        <template v-if="projects && projects.length > 0">
+          <div v-for="project in projects" :key="project">
+            <div>{{ project }}</div>
+            <div v-for="pos in positionsByKey(project)" :key="pos.name">
+              {{ pos.name }} : ${{ pos.invested.toFixed(2) }} :
+              {{ (pos.apy * 100).toFixed(2) }}% apy
+            </div>
           </div>
         </template>
       </div>
@@ -45,13 +42,14 @@ export default {
       address: (state) => state.ethers.address,
     }),
     ...mapGetters({
-      getYearnCurrentUserBalances: 'yearn/getYearnCurrentUserBalances',
+      projects: 'user/getProjects',
+      positionsByKey: 'user/getPositionsByKey',
     }),
   },
   watch: {
     address(a) {
       if (a) {
-        this.$store.dispatch('yearn/fetch')
+        this.$store.dispatch('user/fetch')
       }
     },
   },
