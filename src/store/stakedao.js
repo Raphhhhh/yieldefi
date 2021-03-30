@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import Vue from 'vue'
 import { getProvider } from '~/helpers/ethersConnect'
 import * as addresses from '~/contracts/stakeDaoAddresses'
 
@@ -22,7 +23,7 @@ export const getters = {
           state.balance[stakeDaoVault.sdEurs] *
           state.fullPricePerShare[stakeDaoVault.sdEurs] *
           state.virtualPrice[stakeDaoVault.sdEurs],
-        apy: 69,
+        apy: 0.69,
       },
       {
         name: 'sd3Pools',
@@ -30,7 +31,7 @@ export const getters = {
           state.balance[stakeDaoVault.sd3Pools] *
           state.fullPricePerShare[stakeDaoVault.sd3Pools] *
           state.virtualPrice[stakeDaoVault.sd3Pools],
-        apy: 69,
+        apy: 0.69,
       },
     ]
   },
@@ -38,13 +39,13 @@ export const getters = {
 
 export const mutations = {
   setBalance(state, { b, v }) {
-    state.balance[v] = b
+    Vue.set(state.balance, v, b)
   },
   setFullPricePerShare(state, { pps, v }) {
-    state.fullPricePerShare[v] = pps
+    Vue.set(state.fullPricePerShare, v, pps)
   },
   setVirtualPrice(state, { vp, v }) {
-    state.virtualPrice[v] = vp
+    Vue.set(state.virtualPrice, v, vp)
   },
 }
 
