@@ -30,7 +30,7 @@ export const getters = {
         )
         return {
           name: u.label,
-          invested: u.balance,
+          invested: u.balanceUSD,
           apy: vault.apy.data.netApy,
         }
       })
