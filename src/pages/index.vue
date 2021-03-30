@@ -18,15 +18,14 @@
           <i class="bx bx-rocket"></i><span>Connect to wallet</span>
         </vs-button>
       </template>
-      <div v-else>
-        <template v-if="projects && projects.length > 0">
-          <project
-            v-for="project in projects"
-            :key="project"
-            :project="project"
-          />
-        </template>
-      </div>
+      <template v-else-if="projects && projects.length > 0">
+        <project
+          v-for="project in projects"
+          :key="project"
+          :project="project"
+          :class="$style.project"
+        />
+      </template>
     </vs-col>
   </vs-row>
 </template>
@@ -68,4 +67,6 @@ export default {
 <style lang="stylus" module>
 .container
   text-align center
+  .project
+    margin-bottom 20px
 </style>

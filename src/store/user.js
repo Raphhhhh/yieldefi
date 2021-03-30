@@ -12,6 +12,38 @@ export const getters = {
   getPositionsByKey: (state, getters) => (key) => {
     return getters.getAllPositions[key]
   },
+  getTotalInvestedByProject: (state, getters) => (key) => {
+    return getters
+      .getPositionsByKey(key)
+      .reduce((acc, val) => acc + val.invested, 0)
+  },
+  getTotalApyByProject: (state, getters) => (key) => {
+    return (
+      getters
+        .getPositionsByKey(key)
+        .reduce((acc, val) => acc + val.invested * val.apy, 0) /
+      getters.getTotalInvestedByProject(key)
+    )
+  },
+  getIncomePerProjectPerDay: (state, getters) => (key) => {
+    return (
+      getters
+        .getPositionsByKey(key)
+        .reduce((acc, val) => acc + val.invested * val.apy, 0) / 365
+    )
+  },
+  getIncomePerProjectPerMonth: (state, getters) => (key) => {
+    return (
+      getters
+        .getPositionsByKey(key)
+        .reduce((acc, val) => acc + val.invested * val.apy, 0) / 12
+    )
+  },
+  getIncomePerProjectPerYear: (state, getters) => (key) => {
+    return getters
+      .getPositionsByKey(key)
+      .reduce((acc, val) => acc + val.invested * val.apy, 0)
+  },
 }
 
 export const mutations = {}
