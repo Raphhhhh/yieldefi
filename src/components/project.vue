@@ -99,12 +99,13 @@ export default {
   text-align center
   border-bottom 3px solid #5B3CC4
   margin-bottom 10px
+  font-size 2em
 .total
   background-color #5B3CC4
   color white
   padding 5px
 .epoch
-  border 1px solid #5B3CC4
+  background-color #6b50ca
   color white
   padding 5px
 </style>

@@ -1,9 +1,9 @@
 <template>
   <vs-row>
     <vs-col
-      type="flex"
-      justify="center"
-      align="center"
+      vs-type="flex"
+      vs-justify="center"
+      vs-align="center"
       w="12"
       :class="$style.container"
     >
@@ -13,12 +13,15 @@
         </vs-button>
       </template>
       <template v-else-if="projects && projects.length > 0">
-        <project
+        <vs-row
           v-for="project in projects"
           :key="project"
-          :project="project"
           :class="$style.project"
-        />
+        >
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+            <project :project="project" />
+          </vs-col>
+        </vs-row>
       </template>
     </vs-col>
   </vs-row>
