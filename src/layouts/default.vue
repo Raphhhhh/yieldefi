@@ -74,9 +74,16 @@ export default {
       address: (state) => state.ethers.address,
     }),
   },
+  watch: {
+    async isLogged(l) {
+      if (l) {
+        await this.$store.dispatch('fiatRates/fetch')
+      }
+    },
+  },
   methods: {
-    connect() {
-      this.$store.dispatch('ethers/init')
+    async connect() {
+      await this.$store.dispatch('ethers/init')
     },
     disconnect() {
       this.$store.dispatch('ethers/disconnect')

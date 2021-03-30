@@ -50,8 +50,8 @@ export default {
     },
   },
   methods: {
-    connect() {
-      this.$store.dispatch('ethers/init')
+    async connect() {
+      await this.$store.dispatch('ethers/init')
     },
     disconnect() {
       this.$store.dispatch('ethers/disconnect')

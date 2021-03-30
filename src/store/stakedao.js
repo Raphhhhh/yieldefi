@@ -15,14 +15,17 @@ export const state = () => ({
 })
 
 export const getters = {
-  get(state, getters, rootState) {
+  get(state, getters, rootState, rootGetters) {
     return [
       {
         name: 'sdEurs',
-        invested:
-          state.balance[stakeDaoVault.sdEurs] *
-          state.fullPricePerShare[stakeDaoVault.sdEurs] *
-          state.virtualPrice[stakeDaoVault.sdEurs],
+        invested: rootGetters['fiatRates/getXToUsd']({
+          currency: 'EUR',
+          value:
+            state.balance[stakeDaoVault.sdEurs] *
+            state.fullPricePerShare[stakeDaoVault.sdEurs] *
+            state.virtualPrice[stakeDaoVault.sdEurs],
+        }),
         apy: 0.69,
       },
       {
