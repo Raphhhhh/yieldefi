@@ -51,5 +51,6 @@ export const mutations = {}
 export const actions = {
   async fetch(ctx) {
     await ctx.dispatch('yearn/fetch', null, { root: true })
+    await ctx.dispatch('stakedao/fetch', null, { root: true })
   },
 }
