@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import Vue from 'vue'
 import { getProvider } from '~/helpers/ethersConnect'
 import * as addresses from '~/contracts/stakeDaoAddresses'
+import { getApy2 } from '~/helpers/mathFormula'
 
 const stakeDaoVault = {
   sdEurs: 'sdEurs',
@@ -11,7 +12,9 @@ const stakeDaoVault = {
 export const state = () => ({
   balance: {},
   fullPricePerShare: {},
+  fullPricePerShare1m: {},
   virtualPrice: {},
+  virtualPrice1m: {},
 })
 
 export const getters = {
@@ -26,7 +29,12 @@ export const getters = {
             state.fullPricePerShare[stakeDaoVault.sdEurs] *
             state.virtualPrice[stakeDaoVault.sdEurs],
         }),
-        apy: 0.69,
+        apy: getApy2(
+          state.fullPricePerShare[stakeDaoVault.sdEurs],
+          1,
+          state.fullPricePerShare1m[stakeDaoVault.sdEurs],
+          1
+        ),
       },
       {
         name: 'sd3Pools',
@@ -34,7 +42,12 @@ export const getters = {
           state.balance[stakeDaoVault.sd3Pools] *
           state.fullPricePerShare[stakeDaoVault.sd3Pools] *
           state.virtualPrice[stakeDaoVault.sd3Pools],
-        apy: 0.69,
+        apy: getApy2(
+          state.fullPricePerShare[stakeDaoVault.sd3Pools],
+          state.virtualPrice[stakeDaoVault.sd3Pools],
+          state.fullPricePerShare1m[stakeDaoVault.sd3Pools],
+          state.virtualPrice1m[stakeDaoVault.sd3Pools]
+        ),
       },
     ]
   },
@@ -47,8 +60,14 @@ export const mutations = {
   setFullPricePerShare(state, { pps, v }) {
     Vue.set(state.fullPricePerShare, v, pps)
   },
+  setFullPricePerShare1m(state, { pps, v }) {
+    Vue.set(state.fullPricePerShare1m, v, pps)
+  },
   setVirtualPrice(state, { vp, v }) {
     Vue.set(state.virtualPrice, v, vp)
+  },
+  setVirtualPrice1m(state, { vp, v }) {
+    Vue.set(state.virtualPrice1m, v, vp)
   },
 }
 
@@ -89,6 +108,7 @@ async function _getBalance(ctx, contractAddress, vault, poolId = 2) {
 
 async function _getFullPricePerShare(ctx, v) {
   let result = 0
+  let result1m = 0
   const contractAddress =
     v === stakeDaoVault.sd3Pools
       ? addresses.stakeDaoCurve3poolsCRVContract
@@ -102,8 +122,15 @@ async function _getFullPricePerShare(ctx, v) {
 
   if (contract) {
     result = await contract.getPricePerFullShare()
+    result1m = await contract.getPricePerFullShare({
+      blockTag: -4 * 60 * 24 * 30,
+    })
     ctx.commit('setFullPricePerShare', {
       pps: ethers.utils.formatUnits(result, 18),
+      v,
+    })
+    ctx.commit('setFullPricePerShare1m', {
+      pps: ethers.utils.formatUnits(result1m, 18),
       v,
     })
   }
@@ -111,6 +138,7 @@ async function _getFullPricePerShare(ctx, v) {
 
 async function _getVirtualPrice(ctx, v) {
   let result = 0
+  let result1m = 0
   const contractAddress =
     v === stakeDaoVault.sd3Pools
       ? addresses.curveFinance3PoolContract
@@ -124,8 +152,15 @@ async function _getVirtualPrice(ctx, v) {
 
   if (contract) {
     result = await contract.get_virtual_price()
+    result1m = await contract.get_virtual_price({
+      blockTag: -4 * 60 * 24 * 30,
+    })
     ctx.commit('setVirtualPrice', {
       vp: ethers.utils.formatUnits(result, 18),
+      v,
+    })
+    ctx.commit('setVirtualPrice1m', {
+      vp: ethers.utils.formatUnits(result1m, 18),
       v,
     })
   }
