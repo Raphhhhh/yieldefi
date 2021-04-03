@@ -19,7 +19,7 @@ export const state = () => ({
 
 export const getters = {
   get(state, getters, rootState, rootGetters) {
-    return [
+    const temp = [
       {
         name: 'sdEurs',
         invested: rootGetters['fiat/getXToUsd']({
@@ -40,6 +40,7 @@ export const getters = {
         apy: state.apy[stakeDaoVault.sd3Pools],
       },
     ]
+    return temp.filter((t) => t.invested > 0)
   },
 }
 
