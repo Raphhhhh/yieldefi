@@ -17,6 +17,16 @@
           </vs-button>
         </template>
         <template v-else>
+          <vs-select
+            v-if="fiats && fiats.length > 0"
+            v-model="chosenFiat"
+            placeholder="Fiat"
+            :class="$style.fiat"
+          >
+            <vs-option v-for="f in fiats" :key="f" :value="f" :label="f">
+              {{ f }}
+            </vs-option>
+          </vs-select>
           <vs-input
             v-model="forceAddress"
             placeholder="Spy for an 0x"
@@ -61,7 +71,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -72,12 +82,24 @@ export default {
     ...mapState({
       isLogged: (state) => state.ethers.connected,
       address: (state) => state.ethers.address,
+      rates: (state) => state.fiat.rates,
     }),
+    ...mapGetters({
+      fiats: 'fiat/getAllFiats',
+    }),
+    chosenFiat: {
+      get() {
+        return this.$store.state.fiat.chosenFiat
+      },
+      set(r) {
+        this.$store.commit('fiat/setChosenFiat', r)
+      },
+    },
   },
   watch: {
     async isLogged(l) {
       if (l) {
-        await this.$store.dispatch('fiatRates/fetch')
+        await this.$store.dispatch('fiat/fetch')
       }
     },
   },
@@ -139,6 +161,11 @@ body {
     .iconButton
       i
         margin-right 0
+    .fiat
+      width 76px
+      margin-right 5px
+      :global(.vs-select__input)
+        min-height 32px
   .content
     width 900px
     margin 44px auto 0 auto

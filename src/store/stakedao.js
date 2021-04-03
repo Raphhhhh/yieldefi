@@ -22,7 +22,7 @@ export const getters = {
     return [
       {
         name: 'sdEurs',
-        invested: rootGetters['fiatRates/getXToUsd']({
+        invested: rootGetters['fiat/getXToUsd']({
           currency: 'EUR',
           value:
             state.balance[stakeDaoVault.sdEurs] *

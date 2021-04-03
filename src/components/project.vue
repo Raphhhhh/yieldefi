@@ -53,13 +53,14 @@
               Income:
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              {{ vueNumberFormat(incomePerProjectPerDay(project)) }} /day
+              {{ fiatFormat(incomePerProjectPerDay(project)) }}
+              /day
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              {{ vueNumberFormat(incomePerProjectPerMonth(project)) }} /month
+              {{ fiatFormat(incomePerProjectPerMonth(project)) }} /month
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="3">
-              {{ vueNumberFormat(incomePerProjectPerYear(project)) }} /year
+              {{ fiatFormat(incomePerProjectPerYear(project)) }} /year
             </vs-col>
           </vs-row>
         </vs-col>
