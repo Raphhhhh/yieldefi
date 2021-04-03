@@ -27,7 +27,7 @@
               w="4"
               offset="4"
             >
-              {{ vueNumberFormat(totalInvestedByProject(project)) }}
+              {{ fiatFormat(totalInvestedByProject(project)) }}
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
               {{
