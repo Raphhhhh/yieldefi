@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import Vue from 'vue'
 import { getProvider } from '~/helpers/ethersConnect'
 import * as addresses from '~/contracts/stakeDaoAddresses'
+import { getLastMonthBlock } from '~/helpers/ethersHelper'
 
 const stakeDaoVault = {
   sdEurs: 'sdEurs',
@@ -54,22 +55,66 @@ export const mutations = {
 
 export const actions = {
   async fetch(ctx) {
-    await _getBalance(ctx, addresses.stakeContractAddress, stakeDaoVault.sdEurs)
-    await _getBalance(
+    await _fetchBalance(
+      ctx,
+      addresses.stakeContractAddress,
+      stakeDaoVault.sdEurs
+    )
+    await _fetchBalance(
       ctx,
       addresses.stakeContractAddress,
       stakeDaoVault.sd3Pools,
       1
     )
-    await _getFullPricePerShare(ctx, stakeDaoVault.sdEurs)
-    await _getFullPricePerShare(ctx, stakeDaoVault.sd3Pools)
 
-    await _getVirtualPrice(ctx, stakeDaoVault.sdEurs)
-    await _getVirtualPrice(ctx, stakeDaoVault.sd3Pools)
+    const pricePerShareNow = await _getFullPricePerShare(
+      ctx,
+      stakeDaoVault.sdEurs
+    )
+    ctx.commit('setFullPricePerShare', {
+      pps: pricePerShareNow,
+      v: stakeDaoVault.sdEurs,
+    })
+
+    ctx.commit('setFullPricePerShare', {
+      pps: await _getFullPricePerShare(ctx, stakeDaoVault.sd3Pools),
+      v: stakeDaoVault.sd3Pools,
+    })
+
+    const virtualPriceNow = await _getVirtualPrice(ctx, stakeDaoVault.sdEurs)
+    ctx.commit('setVirtualPrice', {
+      vp: virtualPriceNow,
+      v: stakeDaoVault.sdEurs,
+    })
+    ctx.commit('setVirtualPrice', {
+      vp: await _getVirtualPrice(ctx, stakeDaoVault.sd3Pools),
+      v: stakeDaoVault.sd3Pools,
+    })
+
+    /* const pricePerShareOneMonthAgo = await _getFullPricePerShare(
+      ctx,
+      stakeDaoVault.sdEurs,
+      await getLastMonthBlock()
+    )
+
+    const virtualPriceOneMonthAgo = await _getVirtualPrice(
+      ctx,
+      stakeDaoVault.sdEurs,
+      await getLastMonthBlock()
+    )
+
+    const now = pricePerShareNow * virtualPriceNow
+    const oneMonthAgo = pricePerShareOneMonthAgo * virtualPriceOneMonthAgo
+
+    const mpr = (now - oneMonthAgo) / oneMonthAgo
+    const apr = mpr * 12
+    console.log('apr: ' + apr * 100)
+    const apy = Math.pow(1 + apr / 12, 12) - 1
+    console.log('apy: ' + apy * 100) */
   },
 }
 
-async function _getBalance(ctx, contractAddress, vault, poolId = 2) {
+async function _fetchBalance(ctx, contractAddress, vault, poolId = 2) {
   const contract = new ethers.Contract(
     contractAddress,
     addresses.baseAbi,
@@ -87,10 +132,10 @@ async function _getBalance(ctx, contractAddress, vault, poolId = 2) {
   }
 }
 
-async function _getFullPricePerShare(ctx, v) {
+async function _getFullPricePerShare(ctx, vault, block) {
   let result = 0
   const contractAddress =
-    v === stakeDaoVault.sd3Pools
+    vault === stakeDaoVault.sd3Pools
       ? addresses.stakeDaoCurve3poolsCRVContract
       : addresses.stakeDaoCurveFiEurssEurContract
 
@@ -101,11 +146,10 @@ async function _getFullPricePerShare(ctx, v) {
   )
 
   if (contract) {
-    result = await contract.getPricePerFullShare()
-    ctx.commit('setFullPricePerShare', {
-      pps: ethers.utils.formatUnits(result, 18),
-      v,
+    result = await contract.getPricePerFullShare({
+      blockTag: block || 'latest',
     })
+    return ethers.utils.formatUnits(result, 18)
   }
 }
 
@@ -124,9 +168,6 @@ async function _getVirtualPrice(ctx, v) {
 
   if (contract) {
     result = await contract.get_virtual_price()
-    ctx.commit('setVirtualPrice', {
-      vp: ethers.utils.formatUnits(result, 18),
-      v,
-    })
+    return ethers.utils.formatUnits(result, 18)
   }
 }
