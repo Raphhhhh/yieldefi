@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { getSimpleVault } from '~/helpers/ethersHelper'
 
 const stakingContract = '0xfEA5E213bbD81A8a94D0E1eDB09dBD7CEab61e1c'
@@ -34,12 +35,21 @@ export const getters = {
 
 export const mutations = {
   pushUserVault(state, vault) {
-    state.userVaults.push(vault)
+    const i = state.userVaults.findIndex((uv) => uv.name === vault.name)
+    if (i > -1) {
+      Vue.set(state.userVaults, i, vault)
+    } else {
+      state.userVaults.push(vault)
+    }
+  },
+  resetVaults(state) {
+    state.userVaults = []
   },
 }
 
 export const actions = {
   async fetch(ctx) {
+    ctx.commit('resetVaults')
     const requestsEurs = await getSimpleVault(
       [
         stakingContract,
