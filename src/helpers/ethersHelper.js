@@ -42,7 +42,7 @@ export async function getLastMonthBlock() {
   return await getBlockPerTime(d)
 }
 
-export async function getDatasFromContract(stakingContract, multipliers) {
+export async function getSimpleVault(stakingContract, multipliers) {
   const tokenBalance = await getTokenBalance(...stakingContract)
   if (tokenBalance === '0.0') {
     return {
@@ -73,5 +73,5 @@ export async function getDatasFromContract(stakingContract, multipliers) {
 export default {
   getBlockPerTime,
   getLastMonthBlock,
-  getDatasFromContract,
+  getSimpleVault,
 }

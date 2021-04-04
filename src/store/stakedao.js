@@ -1,4 +1,4 @@
-import { getDatasFromContract } from '~/helpers/ethersHelper'
+import { getSimpleVault } from '~/helpers/ethersHelper'
 
 const stakingContract = '0xfEA5E213bbD81A8a94D0E1eDB09dBD7CEab61e1c'
 const stakingContractAbi = [
@@ -40,7 +40,7 @@ export const mutations = {
 
 export const actions = {
   async fetch(ctx) {
-    const requestsEurs = await getDatasFromContract(
+    const requestsEurs = await getSimpleVault(
       [
         stakingContract,
         stakingContractAbi,
@@ -58,7 +58,7 @@ export const actions = {
     })
     ctx.commit('pushUserVault', { ...requestsEurs, name: 'sdEurs' })
 
-    const requests3Pool = await getDatasFromContract(
+    const requests3Pool = await getSimpleVault(
       [
         stakingContract,
         stakingContractAbi,
