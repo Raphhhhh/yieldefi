@@ -2,19 +2,31 @@ import { ethers } from 'ethers'
 import { getProvider } from '~/helpers/ethersConnect'
 import { getApy } from '~/helpers/formulaHelper'
 
-async function getTokenBalance(contractAddress, abi, methodName, args) {
+async function getTokenBalance(
+  contractAddress,
+  abi,
+  methodName,
+  args,
+  decimals
+) {
   const contract = new ethers.Contract(contractAddress, abi, getProvider())
   if (contract) {
     const balance = await contract[methodName](...args)
     return ethers.utils.formatUnits(
       Array.isArray(balance) ? balance[0] : balance,
-      18
+      decimals
     )
   }
   return 0
 }
 
-async function getMultiplier(contractAddress, abi, methodName, block) {
+async function getMultiplier(
+  contractAddress,
+  abi,
+  methodName,
+  decimals,
+  block = null
+) {
   const contract = new ethers.Contract(contractAddress, abi, getProvider())
   if (contract) {
     const multiplier = await contract[methodName]({
@@ -22,7 +34,7 @@ async function getMultiplier(contractAddress, abi, methodName, block) {
     })
     return ethers.utils.formatUnits(
       Array.isArray(multiplier) ? multiplier[0] : multiplier,
-      18
+      decimals
     )
   }
   return 1

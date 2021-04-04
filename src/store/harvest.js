@@ -7,6 +7,8 @@ const contractAbi = ['function getPricePerFullShare() view returns (uint)']
 const curveContractAbi = [
   'function get_virtual_price() view external returns (uint)',
 ]
+const curveDecimals = 18
+const harvestDecimals = 6
 
 // 3CRV
 const treePoolContract = '0x71B9eC42bB3CB40F017D8AD8011BE8e384a95fa5'
@@ -53,6 +55,27 @@ const usdpContract = '0x02d77f6925f4ef89EE2C35eB3dD5793f5695356f'
 const usdpStakingContract = '0x15AEB9B209FEC67c672dBF5113827daB0b80f390'
 const usdpCrvContract = '0x42d7025938bEc20B69cBae5A77421082407f053A'
 
+// usdc
+const usdcContract = '0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE'
+const usdcStakingContract = '0x4F7c28cCb0F1Dbd1388209C67eEc234273C878Bd'
+
+// usdt
+const usdtContract = '0x053c80eA73Dc6941F518a68E2FC52Ac45BDE7c9C'
+const usdtStakingContract = '0x6ac4a7ab91e6fd098e13b7d347c6d4d1494994a2'
+
+// tusd
+const tusdContract = '0x7674622c63Bee7F46E86a4A5A18976693D54441b'
+const tusdStakingContract = '0xeC56a21CF0D7FeB93C25587C12bFfe094aa0eCdA'
+
+// dai
+const daiContract = '0xab7fa2b2985bccfc13c6d86b1d5a17486ab1e04c'
+const daiStakingContract = '0x15d3A64B2d5ab9E152F16593Cdebc4bB165B5B4A'
+
+// eurs
+const eursContract = '0x6eb941BD065b8a5bd699C5405A928c1f561e2e5a'
+const eursStakingContract = '0xf4d50f60D53a230abc8268c6697972CB255Cd940'
+const eursCrvContract = '0x0Ce6a5fF5217e38315f87032CF90686C96627CAA'
+
 async function _curveBasedFetch(
   ctx,
   stakingContract,
@@ -60,19 +83,34 @@ async function _curveBasedFetch(
   curveContract,
   name
 ) {
-  const requests3Pool = await getSimpleVault(
+  const request = await getSimpleVault(
     [
       stakingContract,
       stakingContractAbi,
       'balanceOf',
       [ctx.rootState.ethers.address],
+      curveDecimals,
     ],
     [
-      [contract, contractAbi, 'getPricePerFullShare'],
-      [curveContract, curveContractAbi, 'get_virtual_price'],
+      [contract, contractAbi, 'getPricePerFullShare', curveDecimals],
+      [curveContract, curveContractAbi, 'get_virtual_price', curveDecimals],
     ]
   )
-  ctx.commit('pushUserVault', { ...requests3Pool, name })
+  ctx.commit('pushUserVault', { ...request, name })
+}
+
+async function _fetch(ctx, stakingContract, contract, name) {
+  const request = await getSimpleVault(
+    [
+      stakingContract,
+      stakingContractAbi,
+      'balanceOf',
+      [ctx.rootState.ethers.address],
+      harvestDecimals,
+    ],
+    [[contract, contractAbi, 'getPricePerFullShare', harvestDecimals]]
+  )
+  ctx.commit('pushUserVault', { ...request, name })
 }
 
 export const state = () => ({
@@ -166,6 +204,29 @@ export const actions = {
         usdpCrvContract,
         'CRV:USDP'
       ),
+      async () => {
+        const request = await getSimpleVault(
+          [
+            eursStakingContract,
+            stakingContractAbi,
+            'balanceOf',
+            [ctx.rootState.ethers.address],
+          ],
+          [
+            [eursContract, contractAbi, 'getPricePerFullShare'],
+            [eursCrvContract, curveContractAbi, 'get_virtual_price'],
+          ]
+        )
+        request.invested = ctx.rootGetters['fiat/getXToUsd']({
+          currency: 'EUR',
+          value: request.invested,
+        })
+        ctx.commit('pushUserVault', { ...request, name: 'CRV:EURS' })
+      },
+      _fetch(ctx, usdcStakingContract, usdcContract, 'USDC'),
+      _fetch(ctx, usdtStakingContract, usdtContract, 'USDT'),
+      _fetch(ctx, tusdStakingContract, tusdContract, 'TUSD'),
+      _fetch(ctx, daiStakingContract, daiContract, 'DAI'),
     ])
   },
 }

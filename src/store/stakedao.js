@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { getSimpleVault } from '~/helpers/ethersHelper'
 
+const decimals = 18
 const stakingContract = '0xfEA5E213bbD81A8a94D0E1eDB09dBD7CEab61e1c'
 const stakingContractAbi = [
   'function userInfo(uint256,address) view returns (uint, uint)',
@@ -56,10 +57,21 @@ export const actions = {
         stakingContractAbi,
         'userInfo',
         [2, ctx.rootState.ethers.address],
+        decimals,
       ],
       [
-        [passiveEurContract, passiveEurContractAbi, 'getPricePerFullShare'],
-        [curveCRVEursContract, curveCRVEursContractAbi, 'get_virtual_price'],
+        [
+          passiveEurContract,
+          passiveEurContractAbi,
+          'getPricePerFullShare',
+          decimals,
+        ],
+        [
+          curveCRVEursContract,
+          curveCRVEursContractAbi,
+          'get_virtual_price',
+          decimals,
+        ],
       ]
     )
     requestsEurs.invested = ctx.rootGetters['fiat/getXToUsd']({
@@ -74,10 +86,21 @@ export const actions = {
         stakingContractAbi,
         'userInfo',
         [0, ctx.rootState.ethers.address],
+        decimals,
       ],
       [
-        [passive3PoolContract, passive3PoolContractAbi, 'getPricePerFullShare'],
-        [curveCRV3PoolContract, curveCRV3PoolContractAbi, 'get_virtual_price'],
+        [
+          passive3PoolContract,
+          passive3PoolContractAbi,
+          'getPricePerFullShare',
+          decimals,
+        ],
+        [
+          curveCRV3PoolContract,
+          curveCRV3PoolContractAbi,
+          'get_virtual_price',
+          decimals,
+        ],
       ]
     )
     ctx.commit('pushUserVault', { ...requests3Pool, name: 'sd3Pools' })
