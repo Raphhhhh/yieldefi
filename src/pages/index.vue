@@ -30,19 +30,19 @@
             }}
           </div>
         </div>
-        <div :class="$style.tile">
+        <div :class="[$style.tile, $style.tileInverted]">
           <div :class="$style.tileTitle">Income /day</div>
           <div :class="$style.tileValue">
             {{ fiatFormat(getTotalIncomePerDay) }}
           </div>
         </div>
-        <div :class="$style.tile">
+        <div :class="[$style.tile, $style.tileInverted]">
           <div :class="$style.tileTitle">Income /month</div>
           <div :class="$style.tileValue">
             {{ fiatFormat(getTotalIncomePerMonth) }}
           </div>
         </div>
-        <div :class="$style.tile">
+        <div :class="[$style.tile, $style.tileInverted]">
           <div :class="$style.tileTitle">Income /year</div>
           <div :class="$style.tileValue">
             {{ fiatFormat(getTotalIncomePerYear) }}
@@ -106,14 +106,17 @@ export default {
   .connect
     margin auto
   .project
-    margin-bottom 20px
+    margin 30px 0
   .tile
-    border 2px solid $secondary
+    border 2px solid $primary
     margin-right 15px
     display inline-block
     padding 10px 20px
     border-radius $border-radius
     text-align left
+    &.tileInverted
+      background $primary
+      border-color $primary
     .tileTitle
       font-size 0.8em
     .tileValue
