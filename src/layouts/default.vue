@@ -2,7 +2,9 @@
   <div :class="$style.container">
     <vs-navbar color="#353639" center-collapsed square :class="$style.navbar">
       <template #left>
-        <div :class="$style.title">Stable income</div>
+        <div :class="$style.title">
+          <i class="bx bxs-badge-dollar"></i> <span>Stable income</span>
+        </div>
       </template>
       <template #right>
         <template v-if="!isLogged">
@@ -135,7 +137,12 @@ body
     margin auto
     position relative
     .title
-      font-size 1.2em
+      font-size 1.5em
+      line-height 1.5em
+      vertical-align middle
+      i
+        color $primary
+        font-size 0.9em
     .iconButton
       i
         margin-right 0
