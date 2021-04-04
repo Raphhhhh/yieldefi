@@ -99,16 +99,22 @@ async function _curveBasedFetch(
   ctx.commit('pushUserVault', { ...request, name })
 }
 
-async function _fetch(ctx, stakingContract, contract, name) {
+async function _fetch(
+  ctx,
+  stakingContract,
+  contract,
+  name,
+  base = harvestDecimals
+) {
   const request = await getSimpleVault(
     [
       stakingContract,
       stakingContractAbi,
       'balanceOf',
       [ctx.rootState.ethers.address],
-      harvestDecimals,
+      base,
     ],
-    [[contract, contractAbi, 'getPricePerFullShare', harvestDecimals]]
+    [[contract, contractAbi, 'getPricePerFullShare', base]]
   )
   ctx.commit('pushUserVault', { ...request, name })
 }
@@ -225,8 +231,8 @@ export const actions = {
       },
       _fetch(ctx, usdcStakingContract, usdcContract, 'USDC'),
       _fetch(ctx, usdtStakingContract, usdtContract, 'USDT'),
-      _fetch(ctx, tusdStakingContract, tusdContract, 'TUSD'),
-      _fetch(ctx, daiStakingContract, daiContract, 'DAI'),
+      _fetch(ctx, tusdStakingContract, tusdContract, 'TUSD', 18),
+      _fetch(ctx, daiStakingContract, daiContract, 'DAI', 18),
     ])
   },
 }
