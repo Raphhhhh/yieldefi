@@ -1,12 +1,6 @@
 <template>
   <div :class="$style.container">
-    <vs-navbar
-      color="#353639"
-      fixed
-      center-collapsed
-      square
-      :class="$style.navbar"
-    >
+    <vs-navbar color="#353639" center-collapsed square :class="$style.navbar">
       <template #left>
         <div :class="$style.title">Stable income</div>
       </template>
@@ -123,39 +117,23 @@ export default {
 
 <style lang="stylus">
 @import-sanitize
-:root
-  --vs-primary 91, 60, 196
-  --vs-success 23, 201, 100
-  --vs-danger 242, 19, 93
-  --vs-warn 254, 130, 0
-  --vs-dark 36, 33, 69
-  --vs-background 30,32,35
-  --vs-text 255,255,255
-  --vs-gray-1 24,25,28
-  --vs-gray-2 20,20,23
-  --vs-gray-3 15,16,19
-  --vs-gray-4 10,11,14
-  --vs-shadow-opacity .3
-  --vs-dark 0,0,0
-  --vs-background-opacity .6
 
 .vs-button i
   margin-right 5px
 body
   font-family Arial, Helvetica, sans-serif
-</style>
-
-<style>
-body {
-  background: rgba(var(--vs-background), 1);
-  color: rgba(var(--vs-text), 1);
-}
+  background $background
+  color $text
 </style>
 
 <style lang="stylus" module>
 .container
   .navbar
     text-align center
+    background-color $background
+    width 1200px
+    margin auto
+    position relative
     .title
       font-size 1.2em
     .iconButton
@@ -167,7 +145,7 @@ body {
       :global(.vs-select__input)
         min-height 32px
   .content
-    width 900px
+    width 1200px
     margin 44px auto 0 auto
     padding-top 20px
 </style>

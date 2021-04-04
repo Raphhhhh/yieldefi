@@ -45,6 +45,36 @@ export const getters = {
       .getPositionsByKey(key)
       .reduce((acc, val) => acc + val.invested * val.apy, 0)
   },
+  getTotalInvested(state, getters) {
+    return getters.getProjects.reduce((acc, project) => {
+      return acc + getters.getTotalInvestedByProject(project)
+    }, 0)
+  },
+  getMediumApy(state, getters) {
+    return getters.getProjects.reduce((acc, project) => {
+      return (
+        acc +
+        (getters.getTotalInvestedByProject(project) *
+          getters.getTotalApyByProject(project)) /
+          getters.getTotalInvested
+      )
+    }, 0)
+  },
+  getTotalIncomePerDay(state, getters) {
+    return getters.getProjects.reduce((acc, project) => {
+      return acc + getters.getIncomePerProjectPerDay(project)
+    }, 0)
+  },
+  getTotalIncomePerMonth(state, getters) {
+    return getters.getProjects.reduce((acc, project) => {
+      return acc + getters.getIncomePerProjectPerMonth(project)
+    }, 0)
+  },
+  getTotalIncomePerYear(state, getters) {
+    return getters.getProjects.reduce((acc, project) => {
+      return acc + getters.getIncomePerProjectPerYear(project)
+    }, 0)
+  },
 }
 
 export const mutations = {}

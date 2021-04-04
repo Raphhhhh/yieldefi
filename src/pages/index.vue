@@ -13,6 +13,41 @@
         </vs-button>
       </template>
       <template v-else-if="projects && projects.length > 0">
+        <div :class="$style.tile">
+          <div :class="$style.tileTitle">Total invested</div>
+          <div :class="$style.tileValue">
+            {{ fiatFormat(getTotalInvested) }}
+          </div>
+        </div>
+        <div :class="$style.tile">
+          <div :class="$style.tileTitle">Medium APY</div>
+          <div :class="$style.tileValue">
+            {{
+              vueNumberFormat(getMediumApy * 100, {
+                prefix: '',
+                suffix: '%',
+              })
+            }}
+          </div>
+        </div>
+        <div :class="$style.tile">
+          <div :class="$style.tileTitle">Income /day</div>
+          <div :class="$style.tileValue">
+            {{ fiatFormat(getTotalIncomePerDay) }}
+          </div>
+        </div>
+        <div :class="$style.tile">
+          <div :class="$style.tileTitle">Income /month</div>
+          <div :class="$style.tileValue">
+            {{ fiatFormat(getTotalIncomePerMonth) }}
+          </div>
+        </div>
+        <div :class="$style.tile">
+          <div :class="$style.tileTitle">Income /year</div>
+          <div :class="$style.tileValue">
+            {{ fiatFormat(getTotalIncomePerYear) }}
+          </div>
+        </div>
         <vs-row
           v-for="project in projects"
           :key="project"
@@ -40,6 +75,11 @@ export default {
     }),
     ...mapGetters({
       projects: 'user/getProjects',
+      getTotalInvested: 'user/getTotalInvested',
+      getMediumApy: 'user/getMediumApy',
+      getTotalIncomePerDay: 'user/getTotalIncomePerDay',
+      getTotalIncomePerMonth: 'user/getTotalIncomePerMonth',
+      getTotalIncomePerYear: 'user/getTotalIncomePerYear',
     }),
   },
   watch: {
@@ -63,6 +103,19 @@ export default {
 <style lang="stylus" module>
 .container
   text-align center
+  .connect
+    margin auto
   .project
     margin-bottom 20px
+  .tile
+    border 2px solid $secondary
+    margin-right 15px
+    display inline-block
+    padding 10px 20px
+    border-radius $border-radius
+    text-align left
+    .tileTitle
+      font-size 0.8em
+    .tileValue
+      font-size 1.5em
 </style>
