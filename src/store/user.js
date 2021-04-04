@@ -5,6 +5,7 @@ export const getters = {
     return {
       yearn: rootGetters['yearn/get'],
       stakedao: rootGetters['stakedao/get'],
+      harvest: rootGetters['harvest/get'],
     }
   },
   getProjects(state, getters) {
@@ -84,6 +85,7 @@ export const actions = {
     await Promise.allSettled([
       ctx.dispatch('yearn/fetch', null, { root: true }),
       ctx.dispatch('stakedao/fetch', null, { root: true }),
+      ctx.dispatch('harvest/fetch', null, { root: true }),
     ])
   },
 }
