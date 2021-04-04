@@ -38,7 +38,13 @@ export async function getBlockPerTime(time) {
 
 export async function getLastMonthBlock() {
   const d = new Date()
-  d.setMonth(d.getMonth() - 1)
+  d.setDate(d.getDate() - 30)
+  return await getBlockPerTime(d)
+}
+
+export async function getLastWeekBlock() {
+  const d = new Date()
+  d.setDate(d.getDate() - 10)
   return await getBlockPerTime(d)
 }
 
@@ -58,20 +64,34 @@ export async function getSimpleVault(stakingContract, multipliers) {
     return (await acc) * x
   }, 1)
 
-  const oneMonthAgoMultiplier = await multipliers.reduce(async (acc, val) => {
+  const thirtyDaysAgoMultiplier = await multipliers.reduce(async (acc, val) => {
     const y = [...val, lastMonthBlock]
     const x = await getMultiplier(...y)
     return (await acc) * x
   }, 1)
 
+  let apy = getApy(nowMultiplier, thirtyDaysAgoMultiplier, 30)
+  if (apy > 2) {
+    const sevenDaysAgoBlock = await getLastWeekBlock()
+    const sevenDaysAgoMultiplier = await multipliers.reduce(
+      async (acc, val) => {
+        const y = [...val, sevenDaysAgoBlock]
+        const x = await getMultiplier(...y)
+        return (await acc) * x
+      },
+      1
+    )
+    apy = getApy(nowMultiplier, sevenDaysAgoMultiplier, 7)
+  }
   return {
     invested: tokenBalance * nowMultiplier,
-    apy: getApy(nowMultiplier, oneMonthAgoMultiplier),
+    apy,
   }
 }
 
 export default {
   getBlockPerTime,
   getLastMonthBlock,
+  getLastWeekBlock,
   getSimpleVault,
 }
