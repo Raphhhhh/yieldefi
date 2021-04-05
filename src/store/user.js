@@ -7,6 +7,7 @@ export const getters = {
       stakedao: rootGetters['stakedao/get'],
       harvest: rootGetters['harvest/get'],
       compound: rootGetters['compound/get'],
+      cream: rootGetters['cream/get'],
     }
   },
   getProjects(state, getters) {
@@ -89,6 +90,7 @@ export const actions = {
       ctx.dispatch('stakedao/fetch', null, { root: true }),
       ctx.dispatch('harvest/fetch', null, { root: true }),
       ctx.dispatch('compound/fetch', null, { root: true }),
+      ctx.dispatch('cream/fetch', null, { root: true }),
     ])
   },
 }
