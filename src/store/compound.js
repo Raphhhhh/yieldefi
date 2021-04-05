@@ -130,10 +130,5 @@ async function _getCompoundVault(
     invested: underLyingBalance,
   }
 
-  simpleVault.invested = ctx.rootGetters['fiat/getXToUsd']({
-    currency: 'USD',
-    value: simpleVault.invested,
-  })
-
   return simpleVault
 }
