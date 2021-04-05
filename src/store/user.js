@@ -6,6 +6,7 @@ export const getters = {
       yearn: rootGetters['yearn/get'],
       stakedao: rootGetters['stakedao/get'],
       harvest: rootGetters['harvest/get'],
+      compound: rootGetters['compound/get'],
     }
   },
   getProjects(state, getters) {
@@ -86,6 +87,7 @@ export const actions = {
       ctx.dispatch('yearn/fetch', null, { root: true }),
       ctx.dispatch('stakedao/fetch', null, { root: true }),
       ctx.dispatch('harvest/fetch', null, { root: true }),
+      ctx.dispatch('compound/fetch', null, { root: true }),
     ])
   },
 }

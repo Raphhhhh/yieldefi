@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { getProvider } from '~/helpers/ethersConnect'
 import { getApy } from '~/helpers/formulaHelper'
 
-async function getTokenBalance(
+export async function getTokenBalance(
   contractAddress,
   abi,
   methodName,
@@ -20,7 +20,7 @@ async function getTokenBalance(
   return 0
 }
 
-async function getMultiplier(
+export async function getMultiplier(
   contractAddress,
   abi,
   methodName,
@@ -38,6 +38,21 @@ async function getMultiplier(
     )
   }
   return 1
+}
+
+export async function callMethod(
+  contractAddress,
+  abi,
+  methodName,
+  block = null
+) {
+  const contract = new ethers.Contract(contractAddress, abi, getProvider())
+  if (contract) {
+    const result = await contract[methodName]({
+      blockTag: block || 'latest',
+    })
+    return result
+  }
 }
 
 export async function getBlockPerTime(time) {
@@ -106,4 +121,7 @@ export default {
   getLastMonthBlock,
   getLastWeekBlock,
   getSimpleVault,
+  getTokenBalance,
+  getMultiplier,
+  callMethod,
 }
