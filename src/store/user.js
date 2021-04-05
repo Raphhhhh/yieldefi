@@ -24,7 +24,7 @@ export const getters = {
       getters
         .getPositionsByKey(key)
         .reduce((acc, val) => acc + val.invested * val.apy, 0) /
-      getters.getTotalInvestedByProject(key)
+        getters.getTotalInvestedByProject(key) || 0
     )
   },
   getIncomePerProjectPerDay: (state, getters) => (key) => {
@@ -52,14 +52,15 @@ export const getters = {
     }, 0)
   },
   getMediumApy(state, getters) {
-    return getters.getProjects.reduce((acc, project) => {
-      return (
-        acc +
-        (getters.getTotalInvestedByProject(project) *
-          getters.getTotalApyByProject(project)) /
-          getters.getTotalInvested
-      )
-    }, 0)
+    return (
+      getters.getProjects.reduce((acc, project) => {
+        return (
+          acc +
+          getters.getTotalInvestedByProject(project) *
+            getters.getTotalApyByProject(project)
+        )
+      }, 0) / getters.getTotalInvested
+    )
   },
   getTotalIncomePerDay(state, getters) {
     return getters.getProjects.reduce((acc, project) => {
