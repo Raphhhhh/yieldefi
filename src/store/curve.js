@@ -119,12 +119,8 @@ export const actions = {
       ])
       const virtualPrice = ethers.utils.formatEther(call[5].value)
       const relativeWeight = ethers.utils.formatEther(call[0].value)
-
-      // const rate = (((gaugeRates[i] * w[1] * 31536000) / _workingSupply) * 0.4) / virtualPrice
-
       const inflationRate = ethers.utils.formatEther(call[2].value)
       const workingSupply = ethers.utils.formatEther(call[3].value)
-      // const totalSupply = ethers.utils.formatEther(call[4].value)
       const rate =
         (((inflationRate * relativeWeight * 31536000) / workingSupply) * 0.4) /
         virtualPrice
