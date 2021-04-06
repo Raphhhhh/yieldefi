@@ -9,7 +9,7 @@
         <vs-tooltip v-if="project === 'curve'" :class="$style.titleTooltip">
           <i class="bx bx-info-circle"></i>
           <template #tooltip>
-            Most of curve income comes from $crv, which is not a stablecoin.
+            Most of income earned on curve are $crv, which is not peg to fiat.
             Your fiat-based earnings vary when $crv token vary.
           </template>
         </vs-tooltip>
