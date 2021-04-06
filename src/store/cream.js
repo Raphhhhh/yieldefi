@@ -3,7 +3,7 @@ import {
   getTokenBalance,
   getMultiplier,
   callMethod,
-  getLastMonthBlock,
+  getLastWeekBlock,
 } from '~/helpers/ethersHelper'
 import { getApy } from '~/helpers/formulaHelper'
 
@@ -89,6 +89,33 @@ const yearnYContractAbi = [
 
 const crYYCrvDecimals = 8
 const yearnYDecimals = 18
+
+const cyDaiContract = '0x8e595470ed749b85c6f7669de83eae304c2ec68f'
+const cyDaiContractAbi = [
+  'function supplyRatePerBlock() external view returns (uint)',
+  'function balanceOf(address owner) external view returns (uint)',
+  'function exchangeRateStored() public view returns (uint)',
+]
+
+const cyDaiDecimals = 8
+
+const cyY3CrvContract = '0x7589c9e17bcfce1ccaa1f921196fda177f0207fc'
+const cyY3CrvContractAbi = [
+  'function supplyRatePerBlock() external view returns (uint)',
+  'function balanceOf(address owner) external view returns (uint)',
+  'function exchangeRateStored() public view returns (uint)',
+]
+const cyY3CrvDecimals = 8
+const y3CrvDecimals = 18
+
+const cyUsdtContract = '0x48759F220ED983dB51fA7A8C0D2AAb8f3ce4166a'
+const cyUsdtContractAbi = [
+  'function supplyRatePerBlock() external view returns (uint)',
+  'function balanceOf(address owner) external view returns (uint)',
+  'function exchangeRateStored() public view returns (uint)',
+]
+
+const cyUsdtDecimals = 8
 
 export const state = () => ({
   userVaults: [],
@@ -206,6 +233,36 @@ export const actions = {
       }
     )
     ctx.commit('pushUserVault', { ...yearnCrvVault, name: 'yyCrv' })
+
+    const cyDaiVault = await _getCreamVault(
+      ctx,
+      cyDaiContract,
+      cyDaiContractAbi,
+      cyDaiDecimals,
+      daiDecimals,
+      {}
+    )
+    ctx.commit('pushUserVault', { ...cyDaiVault, name: 'cyDai' })
+
+    const cy3CrvVault = await _getCreamVault(
+      ctx,
+      cyY3CrvContract,
+      cyY3CrvContractAbi,
+      cyY3CrvDecimals,
+      y3CrvDecimals,
+      {}
+    )
+    ctx.commit('pushUserVault', { ...cy3CrvVault, name: 'cyY3Crv' })
+
+    const cyUsdt = await _getCreamVault(
+      ctx,
+      cyUsdtContract,
+      cyUsdtContractAbi,
+      cyUsdtDecimals,
+      usdtDecimals,
+      {}
+    )
+    ctx.commit('pushUserVault', { ...cyUsdt, name: 'cyUsdt' })
   },
 }
 
@@ -248,7 +305,7 @@ async function _getCreamVault(
       daysPerYear
     ) - 1
 
-  let apyMultiplier = 1
+  let apyMultiplier = 0
   if (yieldContract) {
     const nowMultiplier = await getMultiplier(
       yieldContract,
@@ -261,12 +318,12 @@ async function _getCreamVault(
       yieldContractAbi,
       methodName,
       decimals,
-      await getLastMonthBlock()
+      await getLastWeekBlock()
     )
-    apyMultiplier = 1 + getApy(nowMultiplier, OneMonthAgoMultiplier, 30)
+    apyMultiplier = getApy(nowMultiplier, OneMonthAgoMultiplier, 7)
   }
   const simpleVault = {
-    apy: supplyApy * apyMultiplier,
+    apy: supplyApy + apyMultiplier,
     invested: underLyingBalance,
   }
 
