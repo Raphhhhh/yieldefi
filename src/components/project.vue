@@ -4,7 +4,16 @@
     :class="$style.container"
   >
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
-      <div :class="$style.title">{{ project }}</div>
+      <div :class="$style.title">
+        <span>{{ project }}</span>
+        <vs-tooltip v-if="project === 'curve'" :class="$style.titleTooltip">
+          <i class="bx bx-info-circle"></i>
+          <template #tooltip>
+            Most of curve income comes from $crv, which is not a stablecoin.
+            Your fiat-based earnings vary when $crv token vary.
+          </template>
+        </vs-tooltip>
+      </div>
       <div :class="$style.containerWithoutTitle">
         <vs-row>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
@@ -148,6 +157,9 @@ export default {
     font-size 2em
     text-transform capitalize
     font-weight bold
+    .titleTooltip
+      display inline-block
+      font-size 0.6em
   .position
     border-bottom 1px solid $border-color
     padding 10px 0
