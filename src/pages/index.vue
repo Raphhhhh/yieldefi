@@ -8,9 +8,7 @@
       :class="$style.container"
     >
       <template v-if="!address">
-        <vs-button gradient size="xl" :class="$style.connect" @click="connect">
-          <i class="bx bx-rocket"></i><span>Connect to wallet</span>
-        </vs-button>
+        <landing />
       </template>
       <template v-else-if="projects && projects.length > 0">
         <div :class="$style.tile">
@@ -65,9 +63,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import Project from '~/components/project'
+import Landing from '~/components/landing'
 export default {
   components: {
     Project,
+    Landing,
   },
   computed: {
     ...mapState({
@@ -89,22 +89,12 @@ export default {
       }
     },
   },
-  methods: {
-    async connect() {
-      await this.$store.dispatch('ethers/init')
-    },
-    disconnect() {
-      this.$store.dispatch('ethers/disconnect')
-    },
-  },
 }
 </script>
 
 <style lang="stylus" module>
 .container
   text-align center
-  .connect
-    margin auto
   .project
     margin 30px 0
   .tile

@@ -103,9 +103,7 @@ export const actions = {
   notConnected(ctx) {
     ctx.commit('address', '')
     ctx.commit('user', '')
-    alert(
-      'You are not connected to the Ethereum network. Please check MetaMask,etc.'
-    )
+    alert('You are not connected to the Ethereum network. Metamask is needed.')
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async function (msg) {
