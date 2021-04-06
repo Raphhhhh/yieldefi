@@ -264,7 +264,6 @@ async function _getCreamVault(
       await getLastMonthBlock()
     )
     apyMultiplier = 1 + getApy(nowMultiplier, OneMonthAgoMultiplier, 30)
-    console.log('apyMultiplier', apyMultiplier)
   }
   const simpleVault = {
     apy: supplyApy * apyMultiplier,

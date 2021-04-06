@@ -8,6 +8,7 @@ export const getters = {
       harvest: rootGetters['harvest/get'],
       compound: rootGetters['compound/get'],
       cream: rootGetters['cream/get'],
+      curve: rootGetters['curve/get'],
     }
   },
   getProjects(state, getters) {
@@ -91,6 +92,7 @@ export const actions = {
       ctx.dispatch('harvest/fetch', null, { root: true }),
       ctx.dispatch('compound/fetch', null, { root: true }),
       ctx.dispatch('cream/fetch', null, { root: true }),
+      ctx.dispatch('curve/fetch', null, { root: true }),
     ])
   },
 }
