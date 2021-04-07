@@ -28,10 +28,11 @@ export const getters = {
         const vault = state.vaults.find(
           (v) => v.address.toLowerCase() === u.address.toLowerCase()
         )
+
         return {
           name: u.label,
           invested: u.balanceUSD,
-          apy: vault.apy.data.netApy,
+          apy: vault.apy ? vault.apy.data.netApy : 0,
         }
       })
   },

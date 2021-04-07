@@ -3,7 +3,7 @@
     <vs-navbar color="#353639" center-collapsed square :class="$style.navbar">
       <template #left>
         <div :class="$style.title">
-          <i class="bx bxs-badge-dollar"></i> <span>Stable income</span>
+          <span>yiel<strong>de.fi</strong></span>
         </div>
       </template>
       <template #right>
@@ -64,7 +64,7 @@
       <Nuxt />
     </div>
     <div :class="$style.footer">
-      <div :class="$style.footerContent">© 2021</div>
+      <div :class="$style.footerContent">© 2021 yielde.fi</div>
     </div>
   </div>
 </template>
@@ -146,12 +146,12 @@ body
     .connect
       font-weight bold
     .title
-      font-size 1.5em
-      line-height 1.5em
+      font-size 1.7em
+      line-height 1.7em
       vertical-align middle
-      i
+      font-weight 500
+      strong
         color $primary
-        font-size 0.9em
     .iconButton
       i
         margin-right 0
