@@ -14,13 +14,13 @@ const cDaiContractAbi = [
 const cDaiDecimals = 8
 const daiDecimals = 18
 
-const cUsdcContract = '0x39aa39c021dfbae8fac545936693ac917d5e7563'
-const cUsdcContractAbi = [
+export const cUsdcContract = '0x39aa39c021dfbae8fac545936693ac917d5e7563'
+export const cUsdcContractAbi = [
   'function supplyRatePerBlock() external view returns (uint)',
   'function balanceOf(address owner) external view returns (uint)',
   'function exchangeRateStored() public view returns (uint)',
 ]
-const cUsdcDecimals = 8
+export const cUsdcDecimals = 8
 const usdcDecimals = 6
 
 const cUsdtContract = '0xf650c3d88d12db855b8bf7d11be6c55a4e07dcc9'
