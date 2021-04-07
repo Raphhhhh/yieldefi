@@ -63,6 +63,9 @@
     <div :class="$style.content">
       <Nuxt />
     </div>
+    <div :class="$style.footer">
+      <div :class="$style.footerContent">© 2021</div>
+    </div>
   </div>
 </template>
 
@@ -117,15 +120,19 @@ export default {
 }
 </script>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+</style>
 <style lang="stylus">
 @import-sanitize
 
 .vs-button i
   margin-right 5px
 body
-  font-family Arial, Helvetica, sans-serif
   background $background
   color $text
+*
+  font-family 'Ubuntu', sans-serif
 </style>
 
 <style lang="stylus" module>
@@ -136,6 +143,8 @@ body
     width 1200px
     margin auto
     position relative
+    .connect
+      font-weight bold
     .title
       font-size 1.5em
       line-height 1.5em
@@ -155,4 +164,12 @@ body
     width 1200px
     margin 44px auto 0 auto
     padding-top 20px
+    min-height 400px
+  .footer
+    border-top 1px solid $border-color
+    padding 25px
+    margin-top 250px
+    .footerContent
+      width 1200px
+      margin auto
 </style>
