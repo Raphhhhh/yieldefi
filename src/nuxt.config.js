@@ -51,7 +51,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/gtm',
+    '@nuxtjs/google-gtag',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -60,8 +60,13 @@ export default {
   styleResources: {
     stylus: ['./variables.styl'],
   },
-  gtm: {
+  'google-gtag': {
     id: 'G-NEBHFM48ZW',
+    config: {
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+    },
+    debug: false, // enable to track in dev mode
+    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
