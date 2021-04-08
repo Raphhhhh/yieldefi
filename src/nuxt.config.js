@@ -42,12 +42,6 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@nuxtjs/style-resources',
-    [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'G-NEBHFM48ZW',
-      },
-    ],
   ],
   eslint: {
     fix: true,
@@ -57,6 +51,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/gtm',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -64,6 +59,9 @@ export default {
 
   styleResources: {
     stylus: ['./variables.styl'],
+  },
+  gtm: {
+    id: 'G-NEBHFM48ZW',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
