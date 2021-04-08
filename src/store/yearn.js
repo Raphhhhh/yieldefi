@@ -1,62 +1,88 @@
+import Vue from 'vue'
+import { getSimpleVault } from '~/helpers/ethersHelper'
+import curvePools from '~/pools/curvePools'
+import yearnVaults from '~/pools/yearnVaults'
+
+const contractAbi = [
+  'function balanceOf(address) view returns (uint)',
+  'function getPricePerFullShare() view returns (uint)',
+]
+const curveContractAbi = [
+  'function get_virtual_price() view external returns (uint)',
+]
+const curveDecimals = 18
+
+async function _yearnBasedFetch(ctx, contract, curveContract, name) {
+  const request = await getSimpleVault(
+    [
+      contract,
+      contractAbi,
+      'balanceOf',
+      [ctx.rootState.ethers.address],
+      curveDecimals,
+    ],
+    [
+      [contract, contractAbi, 'getPricePerFullShare', curveDecimals],
+      [curveContract, curveContractAbi, 'get_virtual_price', curveDecimals],
+    ]
+  )
+  ctx.commit('pushUserVault', { ...request, name })
+}
+
 export const state = () => ({
-  vaults: [],
   userVaults: [],
 })
 
 export const getters = {
-  get(state, getters, rootState) {
-    if (
-      !state.vaults ||
-      !state.userVaults ||
-      !rootState.ethers.address ||
-      state.vaults.length === 0 ||
-      state.userVaults.length === 0 ||
-      !state.userVaults[rootState.ethers.address.toLowerCase()]
-    ) {
-      return []
-    }
-    return state.userVaults[rootState.ethers.address.toLowerCase()]
-      .filter(
-        (u) =>
-          u.label.toLowerCase().includes('usd') ||
-          u.label.toLowerCase().includes('3crv') ||
-          u.label.toLowerCase().includes('crvib') ||
-          u.label.toLowerCase().includes('aave') ||
-          u.label.toLowerCase().includes('dai')
-      )
-      .map((u) => {
-        const vault = state.vaults.find(
-          (v) => v.address.toLowerCase() === u.address.toLowerCase()
-        )
-
-        return {
-          name: u.label,
-          invested: u.balanceUSD,
-          apy: vault.apy ? vault.apy.data.netApy : 0,
-        }
-      })
+  get(state) {
+    return state.userVaults.filter((t) => t.invested > 0)
   },
 }
 
 export const mutations = {
-  setVaults(state, v) {
-    state.vaults = v
+  pushUserVault(state, vault) {
+    const i = state.userVaults.findIndex((uv) => uv.name === vault.name)
+    if (i > -1) {
+      Vue.set(state.userVaults, i, vault)
+    } else {
+      state.userVaults.push(vault)
+    }
   },
-  setUserVaults(state, uv) {
-    state.userVaults = uv
+  resetVaults(state) {
+    state.userVaults = []
   },
 }
 
 export const actions = {
   async fetch(ctx) {
-    const req1 = await this.$axios.get('https://vaults.finance/all')
-    ctx.commit('setVaults', req1.data)
+    ctx.commit('resetVaults')
 
-    if (ctx.rootState.ethers.address) {
-      const req2 = await this.$axios.get(
-        `https://api.zapper.fi/v1/balances/yearn?api_key=96e0cc51-a62e-42ca-acee-910ea7d2a241&addresses[]=${ctx.rootState.ethers.address}`
+    const vaults = yearnVaults
+      .filter(
+        (yv) =>
+          (yv.displayName.toLowerCase().includes('usd') ||
+            yv.displayName.toLowerCase().includes('3crv') ||
+            yv.displayName.toLowerCase().includes('crvib') ||
+            yv.displayName.toLowerCase().includes('aave') ||
+            yv.displayName.toLowerCase().includes('dai')) &&
+          yv.apy &&
+          yv.apy.type === 'curve'
       )
-      ctx.commit('setUserVaults', req2.data)
-    }
+      .map((yv) => {
+        return {
+          name: yv.displayName,
+          contractYearn: yv.address,
+          contractCurve: curvePools.find(
+            (cp) =>
+              cp.addresses.lpToken.toLowerCase() ===
+              yv.token.address.toLowerCase()
+          ).addresses.swap,
+        }
+      })
+    await Promise.allSettled(
+      vaults.map((v) =>
+        _yearnBasedFetch(ctx, v.contractYearn, v.contractCurve, v.name)
+      )
+    )
   },
 }
