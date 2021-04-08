@@ -3,7 +3,7 @@
     <vs-navbar color="#353639" center-collapsed square :class="$style.navbar">
       <template #left>
         <div :class="$style.title">
-          <span>yiel<strong>de.fi</strong></span>
+          <img src="~/assets/logodark.png" :class="$style.logo" />
         </div>
       </template>
       <template #right>
@@ -146,12 +146,9 @@ body
     .connect
       font-weight bold
     .title
-      font-size 1.7em
-      line-height 1.7em
-      vertical-align middle
-      font-weight 500
-      strong
-        color $primary
+      padding-top 10px
+      .logo
+        height 40px
     .iconButton
       i
         margin-right 0
