@@ -42,6 +42,12 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@nuxtjs/style-resources',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'G-NEBHFM48ZW',
+      },
+    ],
   ],
   eslint: {
     fix: true,
