@@ -56,6 +56,9 @@
           </vs-col>
         </vs-row>
       </template>
+      <div v-if="getTotalInvested === 0 && !getAllProjectsLoadingState">
+        No stablecoin defi project that yielde.fi handle for now
+      </div>
     </vs-col>
   </vs-row>
 </template>
@@ -80,6 +83,7 @@ export default {
       getTotalIncomePerDay: 'user/getTotalIncomePerDay',
       getTotalIncomePerMonth: 'user/getTotalIncomePerMonth',
       getTotalIncomePerYear: 'user/getTotalIncomePerYear',
+      getAllProjectsLoadingState: 'user/getAllProjectsLoadingState',
     }),
   },
   watch: {

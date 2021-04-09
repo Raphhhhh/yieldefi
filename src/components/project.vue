@@ -1,6 +1,9 @@
 <template>
   <vs-row
-    v-if="positionsByKey(project) && positionsByKey(project).length > 0"
+    v-if="
+      getProjectIsLoading(project) ||
+      (positionsByKey(project) && positionsByKey(project).length > 0)
+    "
     :class="$style.container"
   >
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
@@ -14,7 +17,10 @@
           </template>
         </vs-tooltip>
       </div>
-      <div :class="$style.containerWithoutTitle">
+      <div v-if="getProjectIsLoading(project)" :class="$style.loading">
+        <i class="bx bxs-moon bx-spin"></i>
+      </div>
+      <div v-else :class="$style.containerWithoutTitle">
         <vs-row>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
             <position
@@ -138,6 +144,7 @@ export default {
       incomePerProjectPerDay: 'user/getIncomePerProjectPerDay',
       incomePerProjectPerMonth: 'user/getIncomePerProjectPerMonth',
       incomePerProjectPerYear: 'user/getIncomePerProjectPerYear',
+      getProjectIsLoading: 'user/getProjectIsLoading',
     }),
   },
 }
@@ -160,6 +167,10 @@ export default {
     .titleTooltip
       display inline-block
       font-size 0.6em
+  .loading
+    padding 20px
+    i
+      font-size 2.5em
   .position
     border-bottom 1px solid $border-color
     padding 10px 0
