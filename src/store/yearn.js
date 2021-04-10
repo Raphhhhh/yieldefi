@@ -108,7 +108,6 @@ export const actions = {
               : '',
         }
       })
-    console.log(vaults)
     await Promise.allSettled(
       vaults.map((v) =>
         _yearnBasedFetch(
