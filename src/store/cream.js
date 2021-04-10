@@ -3,7 +3,7 @@ import {
   getTokenBalance,
   getMultiplier,
   callMethod,
-  getLastWeekBlock,
+  getLastMonthBlock,
 } from '~/helpers/ethersHelper'
 import { getApy } from '~/helpers/formulaHelper'
 import {
@@ -145,7 +145,7 @@ export const actions = {
         genericContractAbi,
         crUsdcDecimals,
         usdcDecimals,
-        {},
+        [],
         'usdc'
       ),
 
@@ -155,7 +155,7 @@ export const actions = {
         genericContractAbi,
         crUstDecimals,
         ustDecimals,
-        {},
+        [],
         'ust'
       ),
 
@@ -165,7 +165,7 @@ export const actions = {
         genericContractAbi,
         crUsdtDecimals,
         usdtDecimals,
-        {},
+        [],
         'usdt'
       ),
 
@@ -175,7 +175,7 @@ export const actions = {
         genericContractAbi,
         crDaiDecimals,
         daiDecimals,
-        {},
+        [],
         'dai'
       ),
 
@@ -185,7 +185,7 @@ export const actions = {
         genericContractAbi,
         crHusdDecimals,
         husdDecimals,
-        {},
+        [],
         'husd'
       ),
 
@@ -195,7 +195,7 @@ export const actions = {
         genericContractAbi,
         crSusdDecimals,
         susdDecimals,
-        {},
+        [],
         'susd'
       ),
 
@@ -220,12 +220,10 @@ export const actions = {
         genericContractAbi,
         crYYCrvDecimals,
         yearnYDecimals,
-        {
-          yieldContract: yearnYContract,
-          yieldContractAbi: yearnYContractAbi,
-          methodName: 'getPricePerFullShare',
-          decimals: 18,
-        },
+        [
+          [yearnYContract, yearnYContractAbi, 'getPricePerFullShare', 18],
+          [curveYContract, curveYContractAbi, 'get_virtual_price', 18],
+        ],
         'yyCrv'
       ),
 
@@ -235,7 +233,7 @@ export const actions = {
         genericContractAbi,
         cyDaiDecimals,
         daiDecimals,
-        {},
+        [],
         'cyDai'
       ),
 
@@ -245,7 +243,7 @@ export const actions = {
         genericContractAbi,
         cyY3CrvDecimals,
         y3CrvDecimals,
-        {},
+        [],
         'cyY3Crv'
       ),
 
@@ -255,7 +253,7 @@ export const actions = {
         genericContractAbi,
         cyUsdtDecimals,
         usdtDecimals,
-        {},
+        [],
         'cyUsdt'
       ),
 
@@ -265,7 +263,7 @@ export const actions = {
         genericContractAbi,
         cyUsdcDecimals,
         usdcDecimals,
-        {},
+        [],
         'cyUsdc'
       ),
 
@@ -275,7 +273,7 @@ export const actions = {
         genericContractAbi,
         cySusdsDecimals,
         susdDecimals,
-        {},
+        [],
         'cySusd'
       ),
 
@@ -285,7 +283,7 @@ export const actions = {
         genericContractAbi,
         cyMusdDecimals,
         8,
-        {},
+        [],
         'cyMusd'
       ),
 
@@ -295,7 +293,7 @@ export const actions = {
         genericContractAbi,
         cyDusdDecimals,
         dusdDecimals,
-        {},
+        [],
         'cyDusd'
       ),
 
@@ -305,7 +303,7 @@ export const actions = {
         genericContractAbi,
         cyEursDecimals,
         eursDecimals,
-        {},
+        [],
         'cyEurs'
       ),
 
@@ -315,7 +313,7 @@ export const actions = {
         genericContractAbi,
         cySeursDecimals,
         seursDecimals,
-        {},
+        [],
         'cySeurs'
       ),
 
@@ -325,7 +323,7 @@ export const actions = {
         genericContractAbi,
         cyBusdDecimals,
         busdDecimals,
-        {},
+        [],
         'cyBusd'
       ),
 
@@ -335,7 +333,7 @@ export const actions = {
         genericContractAbi,
         cyGusdDecimals,
         gusdDecimals,
-        {},
+        [],
         'cyGusd'
       ),
 
@@ -345,7 +343,7 @@ export const actions = {
         genericContractAbi,
         cyCDaiDecimals,
         cDaiDecimals,
-        {},
+        [],
         'cyCDai'
       ),
 
@@ -355,7 +353,7 @@ export const actions = {
         genericContractAbi,
         cyCusdtDecimals,
         cUsdtDecimals,
-        {},
+        [],
         'cyCusdt'
       ),
     ])
@@ -366,7 +364,7 @@ export const actions = {
       genericContractAbi,
       cyCusdcDecimals,
       cUsdcDecimals,
-      {},
+      [],
       true
     )
 
@@ -376,7 +374,7 @@ export const actions = {
       cUsdcContractAbi,
       cUsdcDecimals,
       usdcDecimals,
-      {},
+      [],
       true
     ).apy
     cyCUsdc.apy += CUsdcApy
@@ -390,7 +388,7 @@ async function _fetchCreamVault(
   cTokenContractAbi,
   cTokenDecimals,
   underLyingDecimals,
-  { yieldContract, yieldContractAbi, methodName, decimals },
+  multipliers,
   name,
   doNotPush = false
 ) {
@@ -426,25 +424,27 @@ async function _fetchCreamVault(
     ) - 1
 
   let apyMultiplier = 0
-  if (yieldContract) {
-    const nowMultiplier = await getMultiplier(
-      yieldContract,
-      yieldContractAbi,
-      methodName,
-      decimals
-    )
-    const OneMonthAgoMultiplier = await getMultiplier(
-      yieldContract,
-      yieldContractAbi,
-      methodName,
-      decimals,
-      await getLastWeekBlock()
-    )
-    apyMultiplier = getApy(nowMultiplier, OneMonthAgoMultiplier, 7)
+  let nowMultiplier = 1
+  if (multipliers) {
+    const lastMonthBlock = await getLastMonthBlock()
+
+    nowMultiplier = await multipliers.reduce(async (acc, val) => {
+      const y = [...val, null]
+      const x = await getMultiplier(...y)
+      return (await acc) * x
+    }, 1)
+
+    const OneMonthAgoMultiplier = await multipliers.reduce(async (acc, val) => {
+      const y = [...val, lastMonthBlock]
+      const x = await getMultiplier(...y)
+      return (await acc) * x
+    }, 1)
+
+    apyMultiplier = getApy(nowMultiplier, OneMonthAgoMultiplier, 30)
   }
   const simpleVault = {
     apy: supplyApy + apyMultiplier,
-    invested: underLyingBalance,
+    invested: underLyingBalance * nowMultiplier,
   }
   if (!doNotPush) {
     ctx.commit('pushUserVault', {
