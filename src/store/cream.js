@@ -138,255 +138,261 @@ export const mutations = {
 export const actions = {
   async fetch(ctx) {
     ctx.commit('resetVaults')
-    const usdcVault = await _getCreamVault(
-      ctx,
-      crUsdcContract,
-      genericContractAbi,
-      crUsdcDecimals,
-      usdcDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...usdcVault, name: 'usdc' })
+    await Promise.allSettled([
+      _fetchCreamVault(
+        ctx,
+        crUsdcContract,
+        genericContractAbi,
+        crUsdcDecimals,
+        usdcDecimals,
+        {},
+        'usdc'
+      ),
 
-    const ustVault = await _getCreamVault(
-      ctx,
-      crUstContract,
-      genericContractAbi,
-      crUstDecimals,
-      ustDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...ustVault, name: 'ust' })
+      _fetchCreamVault(
+        ctx,
+        crUstContract,
+        genericContractAbi,
+        crUstDecimals,
+        ustDecimals,
+        {},
+        'ust'
+      ),
 
-    const usdtVault = await _getCreamVault(
-      ctx,
-      crUsdtContract,
-      genericContractAbi,
-      crUsdtDecimals,
-      usdtDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...usdtVault, name: 'usdt' })
+      _fetchCreamVault(
+        ctx,
+        crUsdtContract,
+        genericContractAbi,
+        crUsdtDecimals,
+        usdtDecimals,
+        {},
+        'usdt'
+      ),
 
-    const daiVault = await _getCreamVault(
-      ctx,
-      crDaiContract,
-      genericContractAbi,
-      crDaiDecimals,
-      daiDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...daiVault, name: 'dai' })
+      _fetchCreamVault(
+        ctx,
+        crDaiContract,
+        genericContractAbi,
+        crDaiDecimals,
+        daiDecimals,
+        {},
+        'dai'
+      ),
 
-    const husdVault = await _getCreamVault(
-      ctx,
-      crHusdContract,
-      genericContractAbi,
-      crHusdDecimals,
-      husdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...husdVault, name: 'husd' })
+      _fetchCreamVault(
+        ctx,
+        crHusdContract,
+        genericContractAbi,
+        crHusdDecimals,
+        husdDecimals,
+        {},
+        'husd'
+      ),
 
-    const susdVault = await _getCreamVault(
-      ctx,
-      crSusdContract,
-      genericContractAbi,
-      crSusdDecimals,
-      susdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...susdVault, name: 'susd' })
+      _fetchCreamVault(
+        ctx,
+        crSusdContract,
+        genericContractAbi,
+        crSusdDecimals,
+        susdDecimals,
+        {},
+        'susd'
+      ),
 
-    const yCrvVault = await _getCreamVault(
-      ctx,
-      crYCrvContract,
-      genericContractAbi,
-      crYCrvDecimals,
-      YCrvDecimals,
-      {
-        yieldContract: curveYContract,
-        yieldContractAbi: curveYContractAbi,
-        methodName: 'get_virtual_price',
-        decimals: 18,
-      }
-    )
-    ctx.commit('pushUserVault', { ...yCrvVault, name: 'yCrv' })
+      _fetchCreamVault(
+        ctx,
+        crYCrvContract,
+        genericContractAbi,
+        crYCrvDecimals,
+        YCrvDecimals,
+        {
+          yieldContract: curveYContract,
+          yieldContractAbi: curveYContractAbi,
+          methodName: 'get_virtual_price',
+          decimals: 18,
+        },
+        'yCrv'
+      ),
 
-    const yearnCrvVault = await _getCreamVault(
-      ctx,
-      crYYCrvContract,
-      genericContractAbi,
-      crYYCrvDecimals,
-      yearnYDecimals,
-      {
-        yieldContract: yearnYContract,
-        yieldContractAbi: yearnYContractAbi,
-        methodName: 'getPricePerFullShare',
-        decimals: 18,
-      }
-    )
-    ctx.commit('pushUserVault', { ...yearnCrvVault, name: 'yyCrv' })
+      _fetchCreamVault(
+        ctx,
+        crYYCrvContract,
+        genericContractAbi,
+        crYYCrvDecimals,
+        yearnYDecimals,
+        {
+          yieldContract: yearnYContract,
+          yieldContractAbi: yearnYContractAbi,
+          methodName: 'getPricePerFullShare',
+          decimals: 18,
+        },
+        'yyCrv'
+      ),
 
-    const cyDaiVault = await _getCreamVault(
-      ctx,
-      cyDaiContract,
-      genericContractAbi,
-      cyDaiDecimals,
-      daiDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyDaiVault, name: 'cyDai' })
+      _fetchCreamVault(
+        ctx,
+        cyDaiContract,
+        genericContractAbi,
+        cyDaiDecimals,
+        daiDecimals,
+        {},
+        'cyDai'
+      ),
 
-    const cy3CrvVault = await _getCreamVault(
-      ctx,
-      cyY3CrvContract,
-      genericContractAbi,
-      cyY3CrvDecimals,
-      y3CrvDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cy3CrvVault, name: 'cyY3Crv' })
+      _fetchCreamVault(
+        ctx,
+        cyY3CrvContract,
+        genericContractAbi,
+        cyY3CrvDecimals,
+        y3CrvDecimals,
+        {},
+        'cyY3Crv'
+      ),
 
-    const cyUsdt = await _getCreamVault(
-      ctx,
-      cyUsdtContract,
-      genericContractAbi,
-      cyUsdtDecimals,
-      usdtDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyUsdt, name: 'cyUsdt' })
+      _fetchCreamVault(
+        ctx,
+        cyUsdtContract,
+        genericContractAbi,
+        cyUsdtDecimals,
+        usdtDecimals,
+        {},
+        'cyUsdt'
+      ),
 
-    const cyUsdc = await _getCreamVault(
-      ctx,
-      cyUsdcContract,
-      genericContractAbi,
-      cyUsdcDecimals,
-      usdcDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyUsdc, name: 'cyUsdc' })
+      _fetchCreamVault(
+        ctx,
+        cyUsdcContract,
+        genericContractAbi,
+        cyUsdcDecimals,
+        usdcDecimals,
+        {},
+        'cyUsdc'
+      ),
 
-    const cySusd = await _getCreamVault(
-      ctx,
-      cySUsdSContract,
-      genericContractAbi,
-      cySusdsDecimals,
-      susdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cySusd, name: 'cySusd' })
+      _fetchCreamVault(
+        ctx,
+        cySUsdSContract,
+        genericContractAbi,
+        cySusdsDecimals,
+        susdDecimals,
+        {},
+        'cySusd'
+      ),
 
-    const cyMusd = await _getCreamVault(
-      ctx,
-      cyMusdContract,
-      genericContractAbi,
-      cyMusdDecimals,
-      8,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyMusd, name: 'cyMusd' })
+      _fetchCreamVault(
+        ctx,
+        cyMusdContract,
+        genericContractAbi,
+        cyMusdDecimals,
+        8,
+        {},
+        'cyMusd'
+      ),
 
-    const cyDusd = await _getCreamVault(
-      ctx,
-      cyDusdContract,
-      genericContractAbi,
-      cyDusdDecimals,
-      dusdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyDusd, name: 'cyDusd' })
+      _fetchCreamVault(
+        ctx,
+        cyDusdContract,
+        genericContractAbi,
+        cyDusdDecimals,
+        dusdDecimals,
+        {},
+        'cyDusd'
+      ),
 
-    const cyEurs = await _getCreamVault(
-      ctx,
-      cyEursContract,
-      genericContractAbi,
-      cyEursDecimals,
-      eursDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyEurs, name: 'cyEurs' })
+      _fetchCreamVault(
+        ctx,
+        cyEursContract,
+        genericContractAbi,
+        cyEursDecimals,
+        eursDecimals,
+        {},
+        'cyEurs'
+      ),
 
-    const cySeurs = await _getCreamVault(
-      ctx,
-      cySeursContract,
-      genericContractAbi,
-      cySeursDecimals,
-      seursDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cySeurs, name: 'cySeurs' })
+      _fetchCreamVault(
+        ctx,
+        cySeursContract,
+        genericContractAbi,
+        cySeursDecimals,
+        seursDecimals,
+        {},
+        'cySeurs'
+      ),
 
-    const cyBusd = await _getCreamVault(
-      ctx,
-      cyBusdContract,
-      genericContractAbi,
-      cyBusdDecimals,
-      busdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyBusd, name: 'cyBusd' })
+      _fetchCreamVault(
+        ctx,
+        cyBusdContract,
+        genericContractAbi,
+        cyBusdDecimals,
+        busdDecimals,
+        {},
+        'cyBusd'
+      ),
 
-    const cyGusd = await _getCreamVault(
-      ctx,
-      cyGusdContract,
-      genericContractAbi,
-      cyGusdDecimals,
-      gusdDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyGusd, name: 'cyGusd' })
+      _fetchCreamVault(
+        ctx,
+        cyGusdContract,
+        genericContractAbi,
+        cyGusdDecimals,
+        gusdDecimals,
+        {},
+        'cyGusd'
+      ),
 
-    const cyCDai = await _getCreamVault(
-      ctx,
-      cyCDaiContract,
-      genericContractAbi,
-      cyCDaiDecimals,
-      cDaiDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyCDai, name: 'cyCDai' })
+      _fetchCreamVault(
+        ctx,
+        cyCDaiContract,
+        genericContractAbi,
+        cyCDaiDecimals,
+        cDaiDecimals,
+        {},
+        'cyCDai'
+      ),
 
-    const cyCUsdt = await _getCreamVault(
-      ctx,
-      cyCusdtContract,
-      genericContractAbi,
-      cyCusdtDecimals,
-      cUsdtDecimals,
-      {}
-    )
-    ctx.commit('pushUserVault', { ...cyCUsdt, name: 'cyCUsdt' })
+      _fetchCreamVault(
+        ctx,
+        cyCusdtContract,
+        genericContractAbi,
+        cyCusdtDecimals,
+        cUsdtDecimals,
+        {},
+        'cyCusdt'
+      ),
+    ])
 
-    const cyCUsdc = await _getCreamVault(
+    const cyCUsdc = await _fetchCreamVault(
       ctx,
       cyCusdcContract,
       genericContractAbi,
       cyCusdcDecimals,
       cUsdcDecimals,
-      {}
+      {},
+      true
     )
 
-    const CUsdcApy = await _getCreamVault(
+    const CUsdcApy = await _fetchCreamVault(
       ctx,
       cUsdcContract,
       cUsdcContractAbi,
       cUsdcDecimals,
       usdcDecimals,
-      {}
+      {},
+      true
     ).apy
     cyCUsdc.apy += CUsdcApy
     ctx.commit('pushUserVault', { ...cyCUsdc, name: 'cyCUsdc' })
   },
 }
 
-async function _getCreamVault(
+async function _fetchCreamVault(
   ctx,
   cTokenContract,
   cTokenContractAbi,
   cTokenDecimals,
   underLyingDecimals,
-  { yieldContract, yieldContractAbi, methodName, decimals }
+  { yieldContract, yieldContractAbi, methodName, decimals },
+  name,
+  doNotPush = false
 ) {
   const ethMantissa = 1e18
   const blocksPerDay = 4 * 60 * 24
@@ -440,6 +446,11 @@ async function _getCreamVault(
     apy: supplyApy + apyMultiplier,
     invested: underLyingBalance,
   }
-
+  if (!doNotPush) {
+    ctx.commit('pushUserVault', {
+      ...simpleVault,
+      name,
+    })
+  }
   return simpleVault
 }
