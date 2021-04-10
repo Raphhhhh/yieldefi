@@ -25,7 +25,7 @@ export const state = () => ({
 
 export const getters = {
   get(state) {
-    return state.userVaults.filter((t) => t.invested > 0)
+    return state.userVaults.filter((t) => t.invested > 1)
   },
 }
 

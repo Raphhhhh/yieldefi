@@ -6,25 +6,47 @@ import yearnVaults from '~/pools/yearnVaults'
 const contractAbi = [
   'function balanceOf(address) view returns (uint)',
   'function getPricePerFullShare() view returns (uint)',
+  'function pricePerShare() view returns (uint)',
 ]
 const curveContractAbi = [
   'function get_virtual_price() view external returns (uint)',
 ]
-const curveDecimals = 18
 
-async function _yearnBasedFetch(ctx, contract, curveContract, name) {
+async function _yearnBasedFetch(
+  ctx,
+  contract,
+  curveContract,
+  decimals,
+  name,
+  type
+) {
+  let multiplier
+  switch (type) {
+    case 'pricePerShareV1OneMonth':
+      multiplier = [[contract, contractAbi, 'getPricePerFullShare', 18]]
+      break
+    case 'pricePerShareV2OneMonth':
+      multiplier = [[contract, contractAbi, 'pricePerShare', decimals]]
+      break
+    case 'curve':
+      multiplier = [
+        [contract, contractAbi, 'getPricePerFullShare', decimals],
+        [curveContract, curveContractAbi, 'get_virtual_price', decimals],
+      ]
+      break
+    default:
+      multiplier = [[contract, contractAbi, 'getPricePerFullShare', decimals]]
+      break
+  }
   const request = await getSimpleVault(
     [
       contract,
       contractAbi,
       'balanceOf',
       [ctx.rootState.ethers.address],
-      curveDecimals,
+      decimals,
     ],
-    [
-      [contract, contractAbi, 'getPricePerFullShare', curveDecimals],
-      [curveContract, curveContractAbi, 'get_virtual_price', curveDecimals],
-    ]
+    multiplier
   )
   ctx.commit('pushUserVault', { ...request, name })
 }
@@ -35,7 +57,7 @@ export const state = () => ({
 
 export const getters = {
   get(state) {
-    return state.userVaults.filter((t) => t.invested > 0)
+    return state.userVaults.filter((t) => t.invested > 1)
   },
 }
 
@@ -66,22 +88,37 @@ export const actions = {
             yv.displayName.toLowerCase().includes('aave') ||
             yv.displayName.toLowerCase().includes('dai')) &&
           yv.apy &&
-          yv.apy.type === 'curve'
+          (yv.apy.type === 'curve' ||
+            yv.apy.type === 'pricePerShareV2OneMonth' ||
+            yv.apy.type === 'pricePerShareV1OneMonth')
       )
       .map((yv) => {
         return {
+          type: yv.apy.type,
           name: yv.displayName,
           contractYearn: yv.address,
-          contractCurve: curvePools.find(
-            (cp) =>
-              cp.addresses.lpToken.toLowerCase() ===
-              yv.token.address.toLowerCase()
-          ).addresses.swap,
+          decimals: yv.decimals,
+          contractCurve:
+            yv.apy.type === 'curve'
+              ? curvePools.find(
+                  (cp) =>
+                    cp.addresses.lpToken.toLowerCase() ===
+                    yv.token.address.toLowerCase()
+                ).addresses.swap
+              : '',
         }
       })
+    console.log(vaults)
     await Promise.allSettled(
       vaults.map((v) =>
-        _yearnBasedFetch(ctx, v.contractYearn, v.contractCurve, v.name)
+        _yearnBasedFetch(
+          ctx,
+          v.contractYearn,
+          v.contractCurve,
+          v.decimals,
+          v.name,
+          v.type
+        )
       )
     )
   },
