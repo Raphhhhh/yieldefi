@@ -12,6 +12,7 @@ export const getters = {
       compound: rootGetters['compound/get'],
       cream: rootGetters['cream/get'],
       curve: rootGetters['curve/get'],
+      dusd: rootGetters['dusd/get'],
     }
   },
   getProjectIsLoading: (state) => (project) => {
@@ -107,6 +108,7 @@ export const actions = {
       _fetchProject(ctx, 'compound'),
       _fetchProject(ctx, 'cream'),
       _fetchProject(ctx, 'curve'),
+      _fetchProject(ctx, 'dusd'),
     ])
   },
 }
