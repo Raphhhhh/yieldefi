@@ -95,12 +95,13 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     if (this.$store.state.ethers.address) {
       if (this.$store.state.ethers.address.length < 42) {
         this.$store.dispatch('ethers/disconnect')
       }
-      this.$store.dispatch('user/fetch')
+      await this.$store.dispatch('ethers/init')
+      await this.$store.dispatch('user/fetch')
     }
   },
 }
