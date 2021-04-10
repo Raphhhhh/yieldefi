@@ -2,9 +2,9 @@
   <div :class="$style.container">
     <vs-navbar color="#353639" center-collapsed square :class="$style.navbar">
       <template #left>
-        <div :class="$style.title">
+        <a :class="$style.title" href="/">
           <img src="~/assets/logodark.png" :class="$style.logo" />
-        </div>
+        </a>
       </template>
       <template #right>
         <template v-if="!isLogged">
@@ -64,7 +64,14 @@
       <Nuxt />
     </div>
     <div :class="$style.footer">
-      <div :class="$style.footerContent">© 2021 yielde.fi</div>
+      <div :class="$style.footerContent">
+        <div>© {{ year }} yielde.fi</div>
+        <div :class="$style.twitter">
+          <a href="https://twitter.com/yieldefi" target="_blank">
+            <i class="bx bxl-twitter"></i>yieldefi</a
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,6 +100,9 @@ export default {
       set(r) {
         this.$store.commit('fiat/setChosenFiat', r)
       },
+    },
+    year() {
+      return new Date().getFullYear()
     },
   },
   watch: {
@@ -130,7 +140,8 @@ export default {
   margin-right 5px
 body
   background $background
-  color $text
+  &, & a
+    color $text
 *
   font-family 'Ubuntu', sans-serif
 </style>
@@ -165,8 +176,15 @@ body
   .footer
     border-top 1px solid $border-color
     padding 25px
-    margin-top 250px
+    margin-top 50px
     .footerContent
       width 1200px
       margin auto
+      .twitter
+        vertical-align middle
+        a
+          text-decoration none
+        i
+          margin-right 10px
+          font-size 0.9em
 </style>

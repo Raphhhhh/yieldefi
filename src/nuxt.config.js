@@ -32,6 +32,7 @@ export default {
     '~/plugins/vueNumberFormat',
     '~/plugins/globalMixins',
     '~/plugins/errorsHandler',
+    { src: '~/plugins/vuexPersist', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

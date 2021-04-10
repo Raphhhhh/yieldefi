@@ -95,6 +95,14 @@ export default {
       }
     },
   },
+  mounted() {
+    if (this.$store.state.ethers.address) {
+      if (this.$store.state.ethers.address.length < 42) {
+        this.$store.dispatch('ethers/disconnect')
+      }
+      this.$store.dispatch('user/fetch')
+    }
+  },
 }
 </script>
 
