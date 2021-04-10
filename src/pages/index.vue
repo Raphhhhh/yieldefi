@@ -56,7 +56,9 @@
           </vs-col>
         </vs-row>
       </template>
-      <div v-if="getTotalInvested === 0 && !getAllProjectsLoadingState">
+      <div
+        v-if="address && getTotalInvested === 0 && !getAllProjectsLoadingState"
+      >
         No stablecoin defi project that yielde.fi handle for now
       </div>
     </vs-col>
