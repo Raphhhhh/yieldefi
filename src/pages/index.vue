@@ -12,7 +12,7 @@
       </template>
       <template v-else-if="projects && projects.length > 0">
         <div :class="$style.tile">
-          <div :class="$style.tileTitle">Total invested</div>
+          <div :class="$style.tileTitle">Total stables invested</div>
           <div :class="$style.tileValue">
             {{ fiatFormat(getTotalInvested) }}
           </div>
