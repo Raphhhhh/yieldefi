@@ -32,7 +32,7 @@
           </vs-col>
         </vs-row>
 
-        <vs-row>
+        <vs-row v-if="!isProjectFullBorrow(project)">
           <vs-col
             vs-type="flex"
             vs-justify="center"
@@ -145,6 +145,7 @@ export default {
       incomePerProjectPerMonth: 'user/getIncomePerProjectPerMonth',
       incomePerProjectPerYear: 'user/getIncomePerProjectPerYear',
       getProjectIsLoading: 'user/getProjectIsLoading',
+      isProjectFullBorrow: 'user/isProjectFullBorrow',
     }),
   },
 }

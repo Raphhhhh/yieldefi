@@ -102,6 +102,7 @@ export default {
       }
       await this.$store.dispatch('ethers/init')
       await this.$store.dispatch('user/fetch')
+      await this.$store.dispatch('fiat/fetch')
     }
   },
 }

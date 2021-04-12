@@ -13,6 +13,8 @@ export const getters = {
       cream: rootGetters['cream/get'],
       curve: rootGetters['curve/get'],
       dusd: rootGetters['dusd/get'],
+      maker: rootGetters['maker/get'],
+      bprotocol: rootGetters['bprotocol/get'],
     }
   },
   getProjectIsLoading: (state) => (project) => {
@@ -31,12 +33,14 @@ export const getters = {
   getTotalInvestedByProject: (state, getters) => (key) => {
     return getters
       .getPositionsByKey(key)
+      .filter((p) => p.type !== 'borrow')
       .reduce((acc, val) => acc + val.invested, 0)
   },
   getTotalApyByProject: (state, getters) => (key) => {
     return (
       getters
         .getPositionsByKey(key)
+        .filter((p) => p.type !== 'borrow')
         .reduce((acc, val) => acc + val.invested * val.apy, 0) /
         getters.getTotalInvestedByProject(key) || 0
     )
@@ -91,6 +95,12 @@ export const getters = {
       return acc + getters.getIncomePerProjectPerYear(project)
     }, 0)
   },
+  isProjectFullBorrow: (state, getters) => (key) => {
+    return (
+      getters.getPositionsByKey(key).filter((k) => k.type === 'borrow')
+        .length === getters.getPositionsByKey(key).length
+    )
+  },
 }
 
 export const mutations = {
@@ -109,6 +119,8 @@ export const actions = {
       _fetchProject(ctx, 'cream'),
       _fetchProject(ctx, 'curve'),
       _fetchProject(ctx, 'dusd'),
+      _fetchProject(ctx, 'maker'),
+      _fetchProject(ctx, 'bprotocol'),
     ])
   },
 }

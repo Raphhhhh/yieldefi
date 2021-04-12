@@ -4,6 +4,7 @@
       {{ position.name }}
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
+      <span v-if="position.type === 'borrow'">Borrowed: </span>
       {{ fiatFormat(position.invested) }}
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
