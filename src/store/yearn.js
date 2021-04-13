@@ -48,6 +48,17 @@ async function _yearnBasedFetch(
     ],
     multiplier
   )
+  if (name.toLowerCase().includes('btc') && request.invested > 0) {
+    request.invested = ctx.rootGetters['tokens/convert']({
+      currency: 'bitcoin',
+      value: request.invested,
+    })
+  } else if (name.toLowerCase().includes('eth') && request.invested > 0) {
+    request.invested = ctx.rootGetters['tokens/convert']({
+      currency: 'ethereum',
+      value: request.invested,
+    })
+  }
   ctx.commit('pushUserVault', { ...request, name })
 }
 
@@ -83,6 +94,8 @@ export const actions = {
       .filter(
         (yv) =>
           (yv.displayName.toLowerCase().includes('usd') ||
+            yv.displayName.toLowerCase().includes('btc') ||
+            yv.displayName.toLowerCase().includes('eth') ||
             yv.displayName.toLowerCase().includes('3crv') ||
             yv.displayName.toLowerCase().includes('crvib') ||
             yv.displayName.toLowerCase().includes('aave') ||
