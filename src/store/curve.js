@@ -46,10 +46,7 @@ export const mutations = {
 export const actions = {
   async fetch(ctx) {
     ctx.commit('resetVaults')
-    const crvPriceRequest = await this.$axios.get(
-      'https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids=curve-dao-token'
-    )
-    const crvPrice = crvPriceRequest.data['curve-dao-token'].usd
+    const crvPrice = ctx.rootState.tokens.rates['curve-dao-token'].usd
     const wrapper = new GraphQLClient(
       'https://api.thegraph.com/subgraphs/name/protofire/curve-gauges'
     )

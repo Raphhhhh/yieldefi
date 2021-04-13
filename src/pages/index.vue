@@ -101,8 +101,11 @@ export default {
         this.$store.dispatch('ethers/disconnect')
       }
       await this.$store.dispatch('ethers/init')
+      await Promise.allSettled([
+        this.$store.dispatch('fiat/fetch'),
+        this.$store.dispatch('tokens/fetch'),
+      ])
       await this.$store.dispatch('user/fetch')
-      await this.$store.dispatch('fiat/fetch')
     }
   },
 }

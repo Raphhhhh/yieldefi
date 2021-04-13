@@ -108,7 +108,10 @@ export default {
   watch: {
     async isLogged(l) {
       if (l) {
-        await this.$store.dispatch('fiat/fetch')
+        await Promise.allSettled([
+          this.$store.dispatch('fiat/fetch'),
+          this.$store.dispatch('tokens/fetch'),
+        ])
       }
     },
   },
