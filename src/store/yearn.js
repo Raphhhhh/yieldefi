@@ -18,7 +18,8 @@ async function _yearnBasedFetch(
   curveContract,
   decimals,
   name,
-  type
+  type,
+  type2
 ) {
   let multiplier
   switch (type) {
@@ -29,15 +30,24 @@ async function _yearnBasedFetch(
       multiplier = [[contract, contractAbi, 'pricePerShare', decimals]]
       break
     case 'curve':
-      multiplier = [
-        [contract, contractAbi, 'getPricePerFullShare', decimals],
-        [curveContract, curveContractAbi, 'get_virtual_price', decimals],
-      ]
+      if (type2 === 'v2') {
+        multiplier = [
+          [contract, contractAbi, 'pricePerShare', decimals],
+          [curveContract, curveContractAbi, 'get_virtual_price', decimals],
+        ]
+      } else {
+        multiplier = [
+          [contract, contractAbi, 'getPricePerFullShare', decimals],
+          [curveContract, curveContractAbi, 'get_virtual_price', decimals],
+        ]
+      }
+
       break
     default:
       multiplier = [[contract, contractAbi, 'getPricePerFullShare', decimals]]
       break
   }
+
   const request = await getSimpleVault(
     [
       contract,
@@ -48,7 +58,6 @@ async function _yearnBasedFetch(
     ],
     multiplier
   )
-
   ctx.commit('pushUserVault', { ...request, name })
 }
 
@@ -98,6 +107,7 @@ export const actions = {
       .map((yv) => {
         return {
           type: yv.apy.type,
+          type2: yv.type,
           name: yv.displayName,
           contractYearn: yv.address,
           decimals: yv.decimals,
@@ -119,7 +129,8 @@ export const actions = {
           v.contractCurve,
           v.decimals,
           v.name,
-          v.type
+          v.type,
+          v.type2
         )
       )
     )
