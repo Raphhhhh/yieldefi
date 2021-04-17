@@ -74,10 +74,7 @@ export const actions = {
         ],
       ]
     )
-    requestsEurs.invested = ctx.rootGetters['fiat/getXToUsd']({
-      currency: 'EUR',
-      value: requestsEurs.invested,
-    })
+
     ctx.commit('pushUserVault', { ...requestsEurs, name: 'sdEurs' })
 
     const requests3Pool = await getSimpleVault(

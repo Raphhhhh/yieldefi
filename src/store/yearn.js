@@ -48,17 +48,7 @@ async function _yearnBasedFetch(
     ],
     multiplier
   )
-  if (name.toLowerCase().includes('btc') && request.invested > 0) {
-    request.invested = ctx.rootGetters['tokens/convert']({
-      currency: 'bitcoin',
-      value: request.invested,
-    })
-  } else if (name.toLowerCase().includes('eth') && request.invested > 0) {
-    request.invested = ctx.rootGetters['tokens/convert']({
-      currency: 'ethereum',
-      value: request.invested,
-    })
-  }
+
   ctx.commit('pushUserVault', { ...request, name })
 }
 

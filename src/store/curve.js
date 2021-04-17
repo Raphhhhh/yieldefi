@@ -82,7 +82,13 @@ export const actions = {
           p.addresses.gauge &&
           p.addresses.gauge.toLowerCase() === gaugeContractAddress.toLowerCase()
       )
-      if (!pool || pool.referenceAsset !== 'usd') {
+      if (
+        !pool ||
+        (pool.referenceAsset !== 'usd' &&
+          pool.referenceAsset !== 'eur' &&
+          pool.referenceAsset !== 'btc' &&
+          pool.referenceAsset !== 'eth')
+      ) {
         continue
       }
       if (
@@ -118,8 +124,28 @@ export const actions = {
       const relativeWeight = ethers.utils.formatEther(call[0].value)
       const inflationRate = ethers.utils.formatEther(call[2].value)
       const workingSupply = ethers.utils.formatEther(call[3].value)
+
+      let unit
+      switch (pool.referenceAsset) {
+        case 'eur':
+          unit = ctx.rootState.fiat.rates.EUR
+          break
+        case 'btc':
+          unit = ctx.rootState.tokens.rates.bitcoin.usd
+          break
+        case 'eth':
+          unit = ctx.rootState.tokens.rates.ethereum.usd
+          break
+
+        default:
+          unit = 1
+          break
+      }
+
       const rate =
-        (((inflationRate * relativeWeight * 31536000) / workingSupply) * 0.4) /
+        (((inflationRate * relativeWeight * 31536000) /
+          (workingSupply * unit)) *
+          0.4) /
         virtualPrice
       const apy = rate * crvPrice * userBoost
 

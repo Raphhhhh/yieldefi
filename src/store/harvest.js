@@ -210,25 +210,13 @@ export const actions = {
         usdpCrvContract,
         'CRV:USDP'
       ),
-      async () => {
-        const request = await getSimpleVault(
-          [
-            eursStakingContract,
-            stakingContractAbi,
-            'balanceOf',
-            [ctx.rootState.ethers.address],
-          ],
-          [
-            [eursContract, contractAbi, 'getPricePerFullShare'],
-            [eursCrvContract, curveContractAbi, 'get_virtual_price'],
-          ]
-        )
-        request.invested = ctx.rootGetters['fiat/getXToUsd']({
-          currency: 'EUR',
-          value: request.invested,
-        })
-        ctx.commit('pushUserVault', { ...request, name: 'CRV:EURS' })
-      },
+      _curveBasedFetch(
+        ctx,
+        eursStakingContract,
+        eursContract,
+        eursCrvContract,
+        'CRV:EURS'
+      ),
       _fetch(ctx, usdcStakingContract, usdcContract, 'USDC'),
       _fetch(ctx, usdtStakingContract, usdtContract, 'USDT'),
       _fetch(ctx, tusdStakingContract, tusdContract, 'TUSD', 18),

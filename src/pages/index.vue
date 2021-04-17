@@ -46,6 +46,21 @@
             {{ fiatFormat(getTotalIncomePerYear) }}
           </div>
         </div>
+        <vs-row>
+          <vs-col
+            vs-type="flex"
+            vs-justify="right"
+            vs-align="center"
+            w="2"
+            offset="10"
+            :class="$style.options"
+          >
+            <vs-switch v-model="areCryptoVaultsEnabled">
+              <template #off>Fiat pegged vaults only</template>
+              <template #on>wBTC/ETH vaults enabled</template>
+            </vs-switch>
+          </vs-col>
+        </vs-row>
         <vs-row
           v-for="project in projects"
           :key="project"
@@ -87,6 +102,14 @@ export default {
       getTotalIncomePerYear: 'user/getTotalIncomePerYear',
       getAllProjectsLoadingState: 'user/getAllProjectsLoadingState',
     }),
+    areCryptoVaultsEnabled: {
+      get() {
+        return this.$store.state.user.areCryptoVaultsEnabled
+      },
+      set(x) {
+        this.$store.commit('user/setAreCryptoVaultsEnabled', x)
+      },
+    },
   },
   watch: {
     address(a) {
@@ -101,10 +124,6 @@ export default {
         this.$store.dispatch('ethers/disconnect')
       }
       await this.$store.dispatch('ethers/init')
-      await Promise.allSettled([
-        this.$store.dispatch('fiat/fetch'),
-        this.$store.dispatch('tokens/fetch'),
-      ])
       await this.$store.dispatch('user/fetch')
     }
   },
@@ -114,8 +133,8 @@ export default {
 <style lang="stylus" module>
 .container
   text-align center
-  .project
-    margin 30px 0
+  .options
+    margin-top 40px
   .tile
     border 2px solid $primary
     margin-right 15px

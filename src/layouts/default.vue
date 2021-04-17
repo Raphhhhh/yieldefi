@@ -24,6 +24,7 @@
             </vs-option>
           </vs-select>
           <vs-input
+            v-if="!getAllProjectsLoadingState"
             v-model="forceAddress"
             placeholder="Spy for an 0x"
           ></vs-input>
@@ -92,6 +93,7 @@ export default {
     }),
     ...mapGetters({
       fiats: 'fiat/getAllFiats',
+      getAllProjectsLoadingState: 'user/getAllProjectsLoadingState',
     }),
     chosenFiat: {
       get() {
@@ -103,16 +105,6 @@ export default {
     },
     year() {
       return new Date().getFullYear()
-    },
-  },
-  watch: {
-    async isLogged(l) {
-      if (l) {
-        await Promise.allSettled([
-          this.$store.dispatch('fiat/fetch'),
-          this.$store.dispatch('tokens/fetch'),
-        ])
-      }
     },
   },
   methods: {

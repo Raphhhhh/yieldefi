@@ -153,6 +153,7 @@ export default {
 
 <style lang="stylus" module>
 .container
+  margin 0 0 60px 0
   .containerWithoutTitle
     border-left 1px solid $border-color
     border-right 1px solid $border-color
@@ -173,8 +174,9 @@ export default {
     i
       font-size 2.5em
   .position
-    border-bottom 1px solid $border-color
+    border-bottom 2px solid $background
     padding 10px 0
+    background-color $border-color
   .total
     color $primary
     padding 10px 0
