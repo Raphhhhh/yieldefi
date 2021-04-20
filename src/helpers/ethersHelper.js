@@ -83,6 +83,8 @@ export async function getSimpleVault(stakingContract, multipliers) {
       apy: 0,
     }
   }
+  if (!multipliers) return tokenBalance
+
   const lastMonthBlock = await getLastMonthBlock()
 
   const nowMultiplier = await multipliers.reduce(async (acc, val) => {

@@ -16,6 +16,7 @@ export const getters = {
       dusd: rootGetters['dusd/get'],
       maker: rootGetters['maker/get'],
       bprotocol: rootGetters['bprotocol/get'],
+      aave: rootGetters['aave/get'],
     }
 
     Object.keys(result).map((pos, index) => {
@@ -165,8 +166,9 @@ export const actions = {
       _fetchProject(ctx, 'cream'),
       _fetchProject(ctx, 'curve'),
       _fetchProject(ctx, 'dusd'),
-      _fetchProject(ctx, 'maker'),
+      // _fetchProject(ctx, 'maker'),
       _fetchProject(ctx, 'bprotocol'),
+      _fetchProject(ctx, 'aave'),
     ])
   },
 }
