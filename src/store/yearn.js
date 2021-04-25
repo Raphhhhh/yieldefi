@@ -98,6 +98,7 @@ export const actions = {
             yv.displayName.toLowerCase().includes('3crv') ||
             yv.displayName.toLowerCase().includes('crvib') ||
             yv.displayName.toLowerCase().includes('aave') ||
+            yv.displayName.toLowerCase() === 'ycrv' ||
             yv.displayName.toLowerCase().includes('dai')) &&
           yv.apy &&
           (yv.apy.type === 'curve' ||
