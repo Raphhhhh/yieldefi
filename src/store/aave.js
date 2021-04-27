@@ -27,8 +27,9 @@ const susdTokenContract = '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51'
 const aTusdTokenContract = '0x101cc05f4A51C0319f570d5E146a8C625198e636'
 const tusdTokenContract = '0x0000000000085d4780B73119b644AE5ecd22b376'
 
-const aWbtcTokenContract = '0x9ff58f4fFB29fA2266Ab25e75e2A8b3503311656'
+const aWbtcTokenContract = '0x9ff58f4ffb29fa2266ab25e75e2a8b3503311656'
 const wbtcTokenContract = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+const wbtcDecimals = 8
 
 const aWethTokenContract = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e'
 const wethTokenContract = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
@@ -122,7 +123,8 @@ export const actions = {
     const aWbtc = await GetBalanceAndSupplyApy(
       ctx.rootState.ethers.address,
       aWbtcTokenContract,
-      wbtcTokenContract
+      wbtcTokenContract,
+      wbtcDecimals
     )
     ctx.commit('pushUserVault', { ...aWbtc, name: 'aWbtc' })
 
