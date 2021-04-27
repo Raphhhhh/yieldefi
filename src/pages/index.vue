@@ -57,7 +57,7 @@
           >
             <vs-switch v-model="areCryptoVaultsEnabled">
               <template #off>Fiat pegged vaults only</template>
-              <template #on>wBTC/ETH vaults enabled</template>
+              <template #on>BTC/ETH vaults enabled</template>
             </vs-switch>
           </vs-col>
         </vs-row>

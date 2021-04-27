@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import { getSimpleVault } from '~/helpers/ethersHelper'
 import harvestPools from '~/pools/harvestPools'
+import harvestVaults from '~/pools/harvestVaults'
+import curvePools from '~/pools/curvePools'
 
 // commons
 const stakingContractAbi = ['function balanceOf(address) view returns (uint)']
 const contractAbi = ['function getPricePerFullShare() view returns (uint)']
+const curveContractAbi = [
+  'function get_virtual_price() view external returns (uint)',
+]
 
 async function _fetch(ctx, stakingContract, contract, name, base) {
   const request = await getSimpleVault(
@@ -16,6 +21,30 @@ async function _fetch(ctx, stakingContract, contract, name, base) {
       base,
     ],
     [[contract, contractAbi, 'getPricePerFullShare', base]]
+  )
+  ctx.commit('pushUserVault', { ...request, name })
+}
+
+async function _fetchCurve(
+  ctx,
+  stakingContract,
+  contract,
+  name,
+  base,
+  curveContract
+) {
+  const request = await getSimpleVault(
+    [
+      stakingContract,
+      stakingContractAbi,
+      'balanceOf',
+      [ctx.rootState.ethers.address],
+      base,
+    ],
+    [
+      [contract, contractAbi, 'getPricePerFullShare', base],
+      [curveContract, curveContractAbi, 'get_virtual_price', base],
+    ]
   )
   ctx.commit('pushUserVault', { ...request, name })
 }
@@ -70,11 +99,29 @@ export const actions = {
           contract: h.collateralAddress,
           stakingContract: h.contractAddress,
           decimals: h.lpTokenData.decimals,
+          curveContract: h.id.toLowerCase().includes('curve')
+            ? curvePools.find(
+                (c) =>
+                  c.addresses.lpToken.toLowerCase() ===
+                  harvestVaults
+                    .find((v) => v.symbol === h.lpTokenData.symbol)
+                    .underlying.address.toLowerCase()
+              ).addresses.swap
+            : null,
         }
       })
     await Promise.allSettled(
       vaults.map((v) =>
-        _fetch(ctx, v.stakingContract, v.contract, v.name, v.decimals)
+        v.curveContract
+          ? _fetchCurve(
+              ctx,
+              v.stakingContract,
+              v.contract,
+              v.name,
+              v.decimals,
+              v.curveContract
+            )
+          : _fetch(ctx, v.stakingContract, v.contract, v.name, v.decimals)
       )
     )
   },
