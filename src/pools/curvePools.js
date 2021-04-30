@@ -2,13 +2,15 @@ export default [
   {
     dataIndex: 0,
     id: 'compound',
-    idAlias: undefined,
     name: 'Compound',
     pageMetaData: {
       title: 'Compounded',
       description: 'A curve.fi portal for swapping cDAI/cUSDC',
     },
-    lpTokenInfo: { name: 'cCurve', symbol: 'cCrv' },
+    lpTokenInfo: {
+      name: 'cCurve',
+      symbol: 'cCrv',
+    },
     coingeckoInfo: {
       id: 'compound',
       symbol: 'COMP',
@@ -67,7 +69,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: false,
@@ -76,7 +77,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -89,6 +90,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: true,
@@ -97,13 +99,15 @@ export default [
   {
     dataIndex: 1,
     id: 'usdt',
-    idAlias: undefined,
     name: 'USDT',
     pageMetaData: {
       title: 'Tethered',
       description: 'A curve.fi Tethered portal for swapping cDAI/cUSDC/USDT',
     },
-    lpTokenInfo: { name: 'tCurve', symbol: 'tCrv' },
+    lpTokenInfo: {
+      name: 'tCurve',
+      symbol: 'tCrv',
+    },
     coingeckoInfo: {
       id: 'tether',
       symbol: 'USDT',
@@ -186,7 +190,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: false,
@@ -195,7 +198,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -208,6 +211,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: true,
@@ -222,7 +226,10 @@ export default [
       title: 'Yield',
       description: 'A curve.fi yTokens portal for swapping DAI/USDC/USDT/TUSD',
     },
-    lpTokenInfo: { name: 'yCurve', symbol: 'yCrv' },
+    lpTokenInfo: {
+      name: 'yCurve',
+      symbol: 'yCrv',
+    },
     coingeckoInfo: {
       id: 'yearn-finance',
       symbol: 'YFI',
@@ -329,7 +336,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: false,
@@ -338,7 +344,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -351,6 +357,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -359,13 +366,15 @@ export default [
   {
     dataIndex: 3,
     id: 'busd',
-    idAlias: undefined,
     name: 'BUSD',
     pageMetaData: {
       title: 'bUSD',
       description: 'A curve.fi portal for swapping BUSD and other stablecoins',
     },
-    lpTokenInfo: { name: 'bCurve', symbol: 'bCrv' },
+    lpTokenInfo: {
+      name: 'bCurve',
+      symbol: 'bCrv',
+    },
     coingeckoInfo: {
       id: 'binance-usd',
       symbol: 'BUSD',
@@ -472,7 +481,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: false,
@@ -481,7 +489,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -494,6 +502,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -502,13 +511,15 @@ export default [
   {
     dataIndex: 4,
     id: 'susdv2',
-    idAlias: undefined,
     name: 'sUSD',
     pageMetaData: {
       title: 'sUSD',
       description: 'A curve.fi portal for swapping DAI+USDC+USDT+sUSD',
     },
-    lpTokenInfo: { name: 'sCurve', symbol: 'sCrv' },
+    lpTokenInfo: {
+      name: 'sCurve',
+      symbol: 'sCrv',
+    },
     coingeckoInfo: {
       id: 'nusd',
       symbol: 'SUSD',
@@ -565,8 +576,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -581,7 +590,7 @@ export default [
     ],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -594,6 +603,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: true,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -602,13 +612,15 @@ export default [
   {
     dataIndex: 5,
     id: 'pax',
-    idAlias: undefined,
     name: 'PAX',
     pageMetaData: {
       title: 'PAX',
       description: 'A curve.fi portal for swapping ycDAI+ycUSDC+ycUSDT+PAX',
     },
-    lpTokenInfo: { name: 'pCurve', symbol: 'pCrv' },
+    lpTokenInfo: {
+      name: 'pCurve',
+      symbol: 'pCrv',
+    },
     coingeckoInfo: {
       id: 'paxos-standard',
       symbol: 'PAX',
@@ -715,7 +727,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: false,
@@ -724,7 +735,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -737,6 +748,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: true,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -745,13 +757,15 @@ export default [
   {
     dataIndex: 7,
     id: 'ren',
-    idAlias: undefined,
     name: 'ren',
     pageMetaData: {
       title: 'ren',
       description: 'A curve.fi portal for swapping renBTC+wBTC',
     },
-    lpTokenInfo: { name: 'renCurve', symbol: 'renCrv' },
+    lpTokenInfo: {
+      name: 'renCurve',
+      symbol: 'renCrv',
+    },
     coingeckoInfo: {
       id: 'renbtc',
       symbol: 'RENBTC',
@@ -784,8 +798,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'btc',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -794,7 +806,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -807,6 +819,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -815,13 +828,15 @@ export default [
   {
     dataIndex: 8,
     id: 'sbtc',
-    idAlias: undefined,
     name: 'sbtc',
     pageMetaData: {
       title: 'sbtc',
       description: 'A curve.fi portal for swapping renBTC+wBTC+sBTC',
     },
-    lpTokenInfo: { name: 'sbtcCurve', symbol: 'sbtcCrv' },
+    lpTokenInfo: {
+      name: 'sbtcCurve',
+      symbol: 'sbtcCrv',
+    },
     coingeckoInfo: {
       id: 'sbtc',
       symbol: 'SBTC',
@@ -866,17 +881,20 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'btc',
     isLendingPool: false,
     isModernLendingPool: false,
     isMetaPool: false,
     isRiskier: false,
     additionalRewards: [],
-    oldAdditionalRewards: [{ name: 'SNX', rewardTokenCoingeckoId: 'havven' }],
+    oldAdditionalRewards: [
+      {
+        name: 'SNX',
+        rewardTokenCoingeckoId: 'havven',
+      },
+    ],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -889,6 +907,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: true,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -897,13 +916,15 @@ export default [
   {
     dataIndex: 9,
     id: 'hbtc',
-    idAlias: undefined,
     name: 'hbtc',
     pageMetaData: {
       title: 'hbtc',
       description: 'A curve.fi portal for swapping hBTC+wBTC',
     },
-    lpTokenInfo: { name: 'hbtcCurve', symbol: 'hbtcCrv' },
+    lpTokenInfo: {
+      name: 'hbtcCurve',
+      symbol: 'hbtcCrv',
+    },
     coingeckoInfo: {
       id: 'huobi-btc',
       symbol: 'HBTC',
@@ -936,8 +957,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'btc',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -946,7 +965,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -959,6 +978,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -967,16 +987,16 @@ export default [
   {
     dataIndex: 10,
     id: '3pool',
-    idAlias: undefined,
     name: '3pool',
     pageMetaData: {
       title: '3pool',
       description: 'A curve.fi portal for swapping DAI+USDC+USDT',
     },
-    lpTokenInfo: { name: '3poolCurve', symbol: '3poolCrv' },
+    lpTokenInfo: {
+      name: '3poolCurve',
+      symbol: '3poolCrv',
+    },
     coingeckoInfo: {
-      id: undefined,
-      symbol: undefined,
       referenceAssetId: 'dollar',
     },
     assets: 'DAI+USDC+USDT',
@@ -1018,8 +1038,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -1028,7 +1046,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1041,6 +1059,7 @@ export default [
     },
     hasAMultiplier: false,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1049,13 +1068,15 @@ export default [
   {
     dataIndex: 11,
     id: 'gusd',
-    idAlias: undefined,
     name: 'gusd',
     pageMetaData: {
       title: 'gusd',
       description: 'A curve.fi portal for swapping GUSD+3pool',
     },
-    lpTokenInfo: { name: 'gusdCurve', symbol: 'gusdCrv' },
+    lpTokenInfo: {
+      name: 'gusdCurve',
+      symbol: 'gusdCrv',
+    },
     coingeckoInfo: {
       id: 'gemini-dollar',
       symbol: 'GUSD',
@@ -1088,7 +1109,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1135,7 +1155,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1148,6 +1168,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1156,13 +1177,15 @@ export default [
   {
     dataIndex: 12,
     id: 'husd',
-    idAlias: undefined,
     name: 'husd',
     pageMetaData: {
       title: 'husd',
       description: 'A curve.fi portal for swapping HUSD+3pool',
     },
-    lpTokenInfo: { name: 'husdCurve', symbol: 'husdCrv' },
+    lpTokenInfo: {
+      name: 'husdCurve',
+      symbol: 'husdCrv',
+    },
     coingeckoInfo: {
       id: 'husd',
       symbol: 'HUSD',
@@ -1195,7 +1218,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1242,7 +1264,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1255,6 +1277,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1263,13 +1286,15 @@ export default [
   {
     dataIndex: 13,
     id: 'usdk',
-    idAlias: undefined,
     name: 'usdk',
     pageMetaData: {
       title: 'usdk',
       description: 'A curve.fi portal for swapping USDK+3pool',
     },
-    lpTokenInfo: { name: 'usdkCurve', symbol: 'usdkCrv' },
+    lpTokenInfo: {
+      name: 'usdkCurve',
+      symbol: 'usdkCrv',
+    },
     coingeckoInfo: {
       id: 'usdk',
       symbol: 'USDK',
@@ -1302,7 +1327,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1349,7 +1373,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1362,6 +1386,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1370,13 +1395,15 @@ export default [
   {
     dataIndex: 14,
     id: 'usdn',
-    idAlias: undefined,
     name: 'usdn',
     pageMetaData: {
       title: 'usdn',
       description: 'A curve.fi portal for swapping USDN+3pool',
     },
-    lpTokenInfo: { name: 'usdnCurve', symbol: 'usdnCrv' },
+    lpTokenInfo: {
+      name: 'usdnCurve',
+      symbol: 'usdnCrv',
+    },
     coingeckoInfo: {
       id: 'neutrino',
       symbol: 'USDN',
@@ -1409,7 +1436,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1456,7 +1482,7 @@ export default [
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1469,6 +1495,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1477,13 +1504,15 @@ export default [
   {
     dataIndex: 15,
     id: 'linkusd',
-    idAlias: undefined,
     name: 'linkusd',
     pageMetaData: {
       title: 'linkusd',
       description: 'A curve.fi portal for swapping LINKUSD+3pool',
     },
-    lpTokenInfo: { name: 'linkusdCurve', symbol: 'linkusdCrv' },
+    lpTokenInfo: {
+      name: 'linkusdCurve',
+      symbol: 'linkusdCrv',
+    },
     coingeckoInfo: {
       id: 'linkusd',
       symbol: 'LINKUSD',
@@ -1516,7 +1545,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1560,10 +1588,10 @@ export default [
     isModernLendingPool: false,
     isMetaPool: true,
     isRiskier: true,
+    riskLevel: 3,
     additionalRewards: [],
     oldAdditionalRewards: [],
     hasNoGauge: true,
-    gaugeVersion: undefined,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1576,6 +1604,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1584,13 +1613,15 @@ export default [
   {
     dataIndex: 16,
     id: 'musd',
-    idAlias: undefined,
     name: 'musd',
     pageMetaData: {
       title: 'musd',
       description: 'A curve.fi portal for swapping musd+3pool',
     },
-    lpTokenInfo: { name: 'musdCurve', symbol: 'musdCrv' },
+    lpTokenInfo: {
+      name: 'musdCurve',
+      symbol: 'musdCrv',
+    },
     coingeckoInfo: {
       id: 'musd',
       symbol: 'MUSD',
@@ -1623,7 +1654,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1668,9 +1698,14 @@ export default [
     isMetaPool: true,
     isRiskier: false,
     additionalRewards: [],
-    oldAdditionalRewards: [{ name: 'MTA', rewardTokenCoingeckoId: 'meta' }],
+    oldAdditionalRewards: [
+      {
+        name: 'MTA',
+        rewardTokenCoingeckoId: 'meta',
+      },
+    ],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1683,6 +1718,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1691,13 +1727,15 @@ export default [
   {
     dataIndex: 17,
     id: 'rsv',
-    idAlias: undefined,
     name: 'rsv',
     pageMetaData: {
       title: 'rsv',
       description: 'A curve.fi portal for swapping rsv+3pool',
     },
-    lpTokenInfo: { name: 'rsvCurve', symbol: 'rsvCrv' },
+    lpTokenInfo: {
+      name: 'rsvCurve',
+      symbol: 'rsvCrv',
+    },
     coingeckoInfo: {
       id: 'reserve',
       symbol: 'RSV',
@@ -1730,7 +1768,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -1783,7 +1820,7 @@ export default [
     ],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1796,6 +1833,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1804,13 +1842,15 @@ export default [
   {
     dataIndex: 18,
     id: 'tbtc',
-    idAlias: undefined,
     name: 'tbtc',
     pageMetaData: {
       title: 'tbtc',
       description: 'A curve.fi portal for swapping tbtc+sbtcCrv',
     },
-    lpTokenInfo: { name: 'tbtcCurve', symbol: 'tbtcCrv' },
+    lpTokenInfo: {
+      name: 'tbtcCurve',
+      symbol: 'tbtcCrv',
+    },
     coingeckoInfo: {
       id: 'tbtc',
       symbol: 'TBTC',
@@ -1843,7 +1883,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'renbtc',
@@ -1889,10 +1928,13 @@ export default [
     isRiskier: false,
     additionalRewards: [],
     oldAdditionalRewards: [
-      { name: 'KEEP', rewardTokenCoingeckoId: 'keep-network' },
+      {
+        name: 'KEEP',
+        rewardTokenCoingeckoId: 'keep-network',
+      },
     ],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -1905,6 +1947,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -1913,13 +1956,15 @@ export default [
   {
     dataIndex: 19,
     id: 'dusd',
-    idAlias: undefined,
     name: 'dusd',
     pageMetaData: {
       title: 'dusd',
       description: 'A curve.fi portal for swapping dusd+3pool',
     },
-    lpTokenInfo: { name: 'dusdCurve', symbol: 'dusdCrv' },
+    lpTokenInfo: {
+      name: 'dusdCurve',
+      symbol: 'dusdCrv',
+    },
     coingeckoInfo: {
       id: 'defidollar',
       symbol: 'DUSD',
@@ -1952,7 +1997,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -2005,7 +2049,7 @@ export default [
     ],
     oldAdditionalRewards: [],
     hasNoGauge: false,
-    gaugeVersion: undefined,
+    gaugeVersion: 1,
     isPendingGaugeVoteToStartCrvRewards: false,
     expectedCrvRewardsStart: null,
     addresses: {
@@ -2018,6 +2062,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2026,13 +2071,15 @@ export default [
   {
     dataIndex: 20,
     id: 'pbtc',
-    idAlias: undefined,
     name: 'pbtc',
     pageMetaData: {
       title: 'pbtc',
       description: 'A curve.fi portal for swapping pbtc+sbtcCrv',
     },
-    lpTokenInfo: { name: 'pbtcCurve', symbol: 'pbtcCrv' },
+    lpTokenInfo: {
+      name: 'pbtcCurve',
+      symbol: 'pbtcCrv',
+    },
     coingeckoInfo: {
       id: 'ptokens-btc',
       symbol: 'PBTC',
@@ -2065,7 +2112,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'renbtc',
@@ -2133,6 +2179,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2141,16 +2188,16 @@ export default [
   {
     dataIndex: 21,
     id: 'bbtc',
-    idAlias: undefined,
     name: 'bbtc',
     pageMetaData: {
       title: 'bbtc',
       description: 'A curve.fi portal for swapping bbtc+sbtcCrv',
     },
-    lpTokenInfo: { name: 'bbtcCurve', symbol: 'bbtcCrv' },
+    lpTokenInfo: {
+      name: 'bbtcCurve',
+      symbol: 'bbtcCrv',
+    },
     coingeckoInfo: {
-      id: undefined,
-      symbol: undefined,
       referenceAssetId: 'bitcoin',
     },
     assets: 'bbtc+sbtcCrv',
@@ -2180,7 +2227,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'renbtc',
@@ -2240,6 +2286,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2248,13 +2295,15 @@ export default [
   {
     dataIndex: 22,
     id: 'obtc',
-    idAlias: undefined,
     name: 'obtc',
     pageMetaData: {
       title: 'obtc',
       description: 'A curve.fi portal for swapping obtc+sbtcCrv',
     },
-    lpTokenInfo: { name: 'obtcCurve', symbol: 'obtcCrv' },
+    lpTokenInfo: {
+      name: 'obtcCurve',
+      symbol: 'obtcCrv',
+    },
     coingeckoInfo: {
       id: 'boringdao-btc',
       symbol: 'OBTC',
@@ -2287,7 +2336,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'renbtc',
@@ -2355,6 +2403,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2363,13 +2412,15 @@ export default [
   {
     dataIndex: 23,
     id: 'ust',
-    idAlias: undefined,
     name: 'ust',
     pageMetaData: {
       title: 'ust',
       description: 'A curve.fi portal for swapping ust+3pool',
     },
-    lpTokenInfo: { name: 'ustCurve', symbol: 'ustCrv' },
+    lpTokenInfo: {
+      name: 'ustCurve',
+      symbol: 'ustCrv',
+    },
     coingeckoInfo: {
       id: 'terrausd',
       symbol: 'UST',
@@ -2402,7 +2453,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -2462,6 +2512,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2470,13 +2521,15 @@ export default [
   {
     dataIndex: 24,
     id: 'eurs',
-    idAlias: undefined,
     name: 'eurs',
     pageMetaData: {
       title: 'eurs',
       description: 'A curve.fi portal for swapping eurs+seur',
     },
-    lpTokenInfo: { name: 'eursCurve', symbol: 'eursCrv' },
+    lpTokenInfo: {
+      name: 'eursCurve',
+      symbol: 'eursCrv',
+    },
     coingeckoInfo: {
       id: 'stasis-eurs',
       symbol: 'EURS',
@@ -2511,8 +2564,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'eur',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -2541,6 +2592,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: true,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2549,13 +2601,15 @@ export default [
   {
     dataIndex: 25,
     id: 'seth',
-    idAlias: undefined,
     name: 'seth',
     pageMetaData: {
       title: 'seth',
       description: 'A curve.fi portal for swapping eth+seth',
     },
-    lpTokenInfo: { name: 'sethCurve', symbol: 'eCrv' },
+    lpTokenInfo: {
+      name: 'sethCurve',
+      symbol: 'eCrv',
+    },
     coingeckoInfo: {
       id: 'seth',
       symbol: 'SETH',
@@ -2588,8 +2642,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'eth',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -2611,6 +2663,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: true,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2619,13 +2672,15 @@ export default [
   {
     dataIndex: 26,
     id: 'aave',
-    idAlias: undefined,
     name: 'aave',
     pageMetaData: {
       title: 'aave',
       description: 'A curve.fi portal for swapping aDAI+aUSDC+aUSDT',
     },
-    lpTokenInfo: { name: 'aaveCurve', symbol: 'a3Crv' },
+    lpTokenInfo: {
+      name: 'aaveCurve',
+      symbol: 'a3Crv',
+    },
     coingeckoInfo: {
       id: 'aave',
       symbol: 'AAVE',
@@ -2708,7 +2763,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: true,
@@ -2730,6 +2784,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: true,
     containsCompoundCoin: false,
@@ -2738,13 +2793,15 @@ export default [
   {
     dataIndex: 27,
     id: 'steth',
-    idAlias: undefined,
     name: 'steth',
     pageMetaData: {
       title: 'steth',
       description: 'A curve.fi portal for swapping eth+steth',
     },
-    lpTokenInfo: { name: 'stethCurve', symbol: 'stethCrv' },
+    lpTokenInfo: {
+      name: 'stethCurve',
+      symbol: 'stethCrv',
+    },
     coingeckoInfo: {
       id: 'staked-ether',
       symbol: 'STETH',
@@ -2777,8 +2834,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'eth',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -2808,6 +2863,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2816,13 +2872,15 @@ export default [
   {
     dataIndex: 28,
     id: 'saave',
-    idAlias: undefined,
     name: 'saave',
     pageMetaData: {
       title: 'saave',
       description: 'A curve.fi portal for swapping aDAI+asUSD',
     },
-    lpTokenInfo: { name: 'saaveCurve', symbol: 'saCrv' },
+    lpTokenInfo: {
+      name: 'saaveCurve',
+      symbol: 'saCrv',
+    },
     coingeckoInfo: {
       id: 'aave',
       symbol: 'AAVE',
@@ -2881,7 +2939,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: true,
@@ -2903,6 +2960,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: true,
     containsCompoundCoin: false,
@@ -2911,13 +2969,15 @@ export default [
   {
     dataIndex: 29,
     id: 'ankreth',
-    idAlias: undefined,
     name: 'ankreth',
     pageMetaData: {
       title: 'ankreth',
       description: 'A curve.fi portal for swapping eth+ankreth',
     },
-    lpTokenInfo: { name: 'ankrethCurve', symbol: 'aethCrv' },
+    lpTokenInfo: {
+      name: 'ankrethCurve',
+      symbol: 'aethCrv',
+    },
     coingeckoInfo: {
       id: 'ankreth',
       symbol: 'AETH',
@@ -2950,8 +3010,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'eth',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -2988,6 +3046,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -2996,13 +3055,15 @@ export default [
   {
     dataIndex: 30,
     id: 'usdp',
-    idAlias: undefined,
     name: 'usdp',
     pageMetaData: {
       title: 'usdp',
       description: 'A curve.fi portal for swapping usdp+3pool',
     },
-    lpTokenInfo: { name: 'usdpCurve', symbol: 'usdpCrv' },
+    lpTokenInfo: {
+      name: 'usdpCurve',
+      symbol: 'usdpCrv',
+    },
     coingeckoInfo: {
       id: 'usdp',
       symbol: 'USDP',
@@ -3035,7 +3096,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -3095,6 +3155,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -3103,13 +3164,15 @@ export default [
   {
     dataIndex: 31,
     id: 'ib',
-    idAlias: undefined,
     name: 'ironbank',
     pageMetaData: {
       title: 'ironbank',
       description: 'A curve.fi portal for swapping cyDAI+cyUSDC+cyUSDT',
     },
-    lpTokenInfo: { name: 'ibCurve', symbol: 'ib3Crv' },
+    lpTokenInfo: {
+      name: 'ibCurve',
+      symbol: 'ib3Crv',
+    },
     coingeckoInfo: {
       id: 'cream-2',
       symbol: 'CREAM',
@@ -3192,7 +3255,6 @@ export default [
         isFiat: true,
       },
     ],
-    metaCoins: undefined,
     referenceAsset: 'usd',
     isLendingPool: true,
     isModernLendingPool: true,
@@ -3214,6 +3276,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -3222,13 +3285,15 @@ export default [
   {
     dataIndex: 32,
     id: 'link',
-    idAlias: undefined,
     name: 'link',
     pageMetaData: {
       title: 'link',
       description: 'A curve.fi portal for swapping LINK+sLINK',
     },
-    lpTokenInfo: { name: 'linkCurve', symbol: 'linkCrv' },
+    lpTokenInfo: {
+      name: 'linkCurve',
+      symbol: 'linkCrv',
+    },
     coingeckoInfo: {
       id: 'chainlink',
       symbol: 'LINK',
@@ -3261,8 +3326,6 @@ export default [
         isFiat: false,
       },
     ],
-    underlyingCoins: undefined,
-    metaCoins: undefined,
     referenceAsset: 'link',
     isLendingPool: false,
     isModernLendingPool: false,
@@ -3284,6 +3347,7 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: true,
     containsAaveCoin: false,
     containsCompoundCoin: false,
@@ -3292,16 +3356,16 @@ export default [
   {
     dataIndex: 33,
     id: 'tusd',
-    idAlias: undefined,
     name: 'tusd',
     pageMetaData: {
       title: 'tusd',
       description: 'A curve.fi portal for swapping tusd+3pool',
     },
-    lpTokenInfo: { name: 'tusdCurve', symbol: 'tusdCrv' },
+    lpTokenInfo: {
+      name: 'tusdCurve',
+      symbol: 'tusdCrv',
+    },
     coingeckoInfo: {
-      id: undefined,
-      symbol: undefined,
       referenceAssetId: 'dollar',
     },
     assets: 'tusd+3pool',
@@ -3331,7 +3395,6 @@ export default [
         isFiat: true,
       },
     ],
-    underlyingCoins: undefined,
     metaCoins: [
       {
         id: 'dai',
@@ -3391,6 +3454,344 @@ export default [
     },
     hasAMultiplier: true,
     isOldPool: false,
+    hasNoCRVRewards: false,
+    containsSynthCoin: false,
+    containsAaveCoin: false,
+    containsCompoundCoin: false,
+    containsYearnBasedCoin: false,
+  },
+  {
+    dataIndex: 34,
+    id: 'frax',
+    name: 'frax',
+    pageMetaData: {
+      title: 'frax',
+      description: 'A curve.fi portal for swapping frax+3pool',
+    },
+    lpTokenInfo: {
+      name: 'fraxCurve',
+      symbol: 'fraxCrv',
+    },
+    coingeckoInfo: {
+      id: 'frax',
+      symbol: 'FRAX',
+      referenceAssetId: 'dollar',
+    },
+    assets: 'frax+3pool',
+    coins: [
+      {
+        id: 'frax',
+        type: 'usd',
+        symbol: 'FRAX',
+        decimals: 1000000000000000000,
+        address: '0x853d955acef822db058eb8505911ed77f175b99e',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'tricrv',
+        type: 'usd',
+        symbol: '3Crv',
+        decimals: 1000000000000000000,
+        address: '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+        isSynth: false,
+        isLpToken: true,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    metaCoins: [
+      {
+        id: 'dai',
+        type: 'usd',
+        symbol: 'DAI',
+        decimals: 1000000000000000000,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdc',
+        type: 'usd',
+        symbol: 'USDC',
+        decimals: 1000000,
+        address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdt',
+        type: 'usd',
+        symbol: 'USDT',
+        decimals: 1000000,
+        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    referenceAsset: 'usd',
+    isLendingPool: false,
+    isModernLendingPool: false,
+    isMetaPool: true,
+    isRiskier: true,
+    riskLevel: 2,
+    additionalRewards: [],
+    oldAdditionalRewards: [],
+    hasNoGauge: false,
+    gaugeVersion: 1,
+    isPendingGaugeVoteToStartCrvRewards: false,
+    expectedCrvRewardsStart: null,
+    addresses: {
+      swap: '0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B',
+      lpToken: '0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B',
+      gauge: '0x72e158d38dbd50a483501c24f792bdaaa3e7d55c',
+      deposit: '0xA79828DF1850E8a3A3064576f380D90aECDD3359',
+      stakingRewards: null,
+      adapter: null,
+    },
+    hasAMultiplier: true,
+    isOldPool: false,
+    hasNoCRVRewards: false,
+    containsSynthCoin: false,
+    containsAaveCoin: false,
+    containsCompoundCoin: false,
+    containsYearnBasedCoin: false,
+  },
+  {
+    dataIndex: 35,
+    id: 'lusd',
+    name: 'lusd',
+    pageMetaData: {
+      title: 'lusd',
+      description: 'A curve.fi portal for swapping lusd+3pool',
+    },
+    lpTokenInfo: {
+      name: 'lusdCurve',
+      symbol: 'lusdCrv',
+    },
+    coingeckoInfo: {
+      id: 'liquity-usd',
+      symbol: 'LUSD',
+      referenceAssetId: 'dollar',
+    },
+    assets: 'lusd+3pool',
+    coins: [
+      {
+        id: 'lusd',
+        type: 'usd',
+        symbol: 'LUSD',
+        decimals: 1000000000000000000,
+        address: '0x5f98805A4E8be255a32880FDeC7F6728C6568bA0',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'tricrv',
+        type: 'usd',
+        symbol: '3Crv',
+        decimals: 1000000000000000000,
+        address: '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+        isSynth: false,
+        isLpToken: true,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    metaCoins: [
+      {
+        id: 'dai',
+        type: 'usd',
+        symbol: 'DAI',
+        decimals: 1000000000000000000,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdc',
+        type: 'usd',
+        symbol: 'USDC',
+        decimals: 1000000,
+        address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdt',
+        type: 'usd',
+        symbol: 'USDT',
+        decimals: 1000000,
+        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    referenceAsset: 'usd',
+    isLendingPool: false,
+    isModernLendingPool: false,
+    isMetaPool: true,
+    isRiskier: true,
+    riskLevel: 1,
+    additionalRewards: [
+      {
+        name: 'LQTY',
+        amountDataKey: 'lqtyRewards',
+        rewardTokenCoingeckoId: 'liquity',
+        rewardTokenAddress: '0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d',
+        rewardTokenDecimals: 18,
+      },
+    ],
+    oldAdditionalRewards: [],
+    hasNoGauge: false,
+    gaugeVersion: 2,
+    isPendingGaugeVoteToStartCrvRewards: false,
+    expectedCrvRewardsStart: null,
+    addresses: {
+      swap: '0xEd279fDD11cA84bEef15AF5D39BB4d4bEE23F0cA',
+      lpToken: '0xEd279fDD11cA84bEef15AF5D39BB4d4bEE23F0cA',
+      gauge: '0x9b8519a9a00100720ccdc8a120fbed319ca47a14',
+      deposit: '0xA79828DF1850E8a3A3064576f380D90aECDD3359',
+      stakingRewards: null,
+      adapter: null,
+    },
+    hasAMultiplier: true,
+    isOldPool: false,
+    hasNoCRVRewards: false,
+    containsSynthCoin: false,
+    containsAaveCoin: false,
+    containsCompoundCoin: false,
+    containsYearnBasedCoin: false,
+  },
+  {
+    dataIndex: 36,
+    id: 'busdv2',
+    name: 'busdv2',
+    pageMetaData: {
+      title: 'busdv2',
+      description: 'A curve.fi portal for swapping busd+3pool',
+    },
+    lpTokenInfo: {
+      name: 'busdCurve',
+      symbol: 'busdCrv',
+    },
+    coingeckoInfo: {
+      id: 'binance-usd',
+      symbol: 'BUSD',
+      referenceAssetId: 'dollar',
+    },
+    assets: 'busd+3pool',
+    coins: [
+      {
+        id: 'busd',
+        type: 'usd',
+        symbol: 'BUSD',
+        decimals: 1000000000000000000,
+        address: '0x4Fabb145d64652a948d72533023f6E7A623C7C53',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'tricrv',
+        type: 'usd',
+        symbol: '3Crv',
+        decimals: 1000000000000000000,
+        address: '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+        isSynth: false,
+        isLpToken: true,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    metaCoins: [
+      {
+        id: 'dai',
+        type: 'usd',
+        symbol: 'DAI',
+        decimals: 1000000000000000000,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdc',
+        type: 'usd',
+        symbol: 'USDC',
+        decimals: 1000000,
+        address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+      {
+        id: 'usdt',
+        type: 'usd',
+        symbol: 'USDT',
+        decimals: 1000000,
+        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        isSynth: false,
+        isLpToken: false,
+        wrappedCoinType: null,
+        isWrappedCoin: false,
+        isFiat: true,
+      },
+    ],
+    referenceAsset: 'usd',
+    isLendingPool: false,
+    isModernLendingPool: false,
+    isMetaPool: true,
+    isRiskier: false,
+    additionalRewards: [],
+    oldAdditionalRewards: [],
+    hasNoGauge: false,
+    gaugeVersion: 2,
+    isPendingGaugeVoteToStartCrvRewards: false,
+    expectedCrvRewardsStart: null,
+    addresses: {
+      swap: '0x4807862AA8b2bF68830e4C8dc86D0e9A998e085a',
+      lpToken: '0x4807862AA8b2bF68830e4C8dc86D0e9A998e085a',
+      gauge: '0xd4b22fedca85e684919955061fdf353b9d38389b',
+      deposit: '0xA79828DF1850E8a3A3064576f380D90aECDD3359',
+      stakingRewards: null,
+      adapter: null,
+    },
+    hasAMultiplier: true,
+    isOldPool: false,
+    hasNoCRVRewards: false,
     containsSynthCoin: false,
     containsAaveCoin: false,
     containsCompoundCoin: false,
