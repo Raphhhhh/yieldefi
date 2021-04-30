@@ -30,6 +30,7 @@ export const getters = {
               p.name !== 'ren')
         )
         .map((original) => {
+          console.log(original)
           const p = { ...original }
           if (p.type === 'borrow' || p.name.toLowerCase().includes('usd')) {
             return p

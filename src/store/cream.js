@@ -365,6 +365,7 @@ export const actions = {
       cyCusdcDecimals,
       cUsdcDecimals,
       [],
+      'cycUsdc',
       true
     )
 
@@ -375,6 +376,7 @@ export const actions = {
       cUsdcDecimals,
       usdcDecimals,
       [],
+      'cycUsdc',
       true
     ).apy
     cyCUsdc.apy += CUsdcApy
