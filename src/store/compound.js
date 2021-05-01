@@ -1,36 +1,7 @@
 import Vue from 'vue'
-import {
-  getTokenBalance,
-  getMultiplier,
-  callMethod,
-} from '~/helpers/ethersHelper'
+import Compound from '@compound-finance/compound-js'
 
-const cDaiContract = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643'
-const cDaiContractAbi = [
-  'function supplyRatePerBlock() external view returns (uint)',
-  'function balanceOf(address owner) external view returns (uint)',
-  'function exchangeRateStored() public view returns (uint)',
-]
-const cDaiDecimals = 8
-const daiDecimals = 18
-
-export const cUsdcContract = '0x39aa39c021dfbae8fac545936693ac917d5e7563'
-export const cUsdcContractAbi = [
-  'function supplyRatePerBlock() external view returns (uint)',
-  'function balanceOf(address owner) external view returns (uint)',
-  'function exchangeRateStored() public view returns (uint)',
-]
-export const cUsdcDecimals = 8
-const usdcDecimals = 6
-
-const cUsdtContract = '0xf650c3d88d12db855b8bf7d11be6c55a4e07dcc9'
-const cUsdtContractAbi = [
-  'function supplyRatePerBlock() external view returns (uint)',
-  'function balanceOf(address owner) external view returns (uint)',
-  'function exchangeRateStored() public view returns (uint)',
-]
-const cUsdtDecimals = 8
-const usdtDecimals = 6
+const assetsToInclude = ['cWBTC', 'cUSDT', 'cUSDC', 'cWBTC2', 'cETH', 'cDAI']
 
 export const state = () => ({
   userVaults: [],
@@ -38,7 +9,7 @@ export const state = () => ({
 
 export const getters = {
   get(state) {
-    return state.userVaults.filter((t) => t.invested > 1)
+    return state.userVaults.filter((t) => t.invested !== 0)
   },
 }
 
@@ -59,76 +30,57 @@ export const mutations = {
 export const actions = {
   async fetch(ctx) {
     ctx.commit('resetVaults')
-    const daiVault = await _getCompoundVault(
-      ctx,
-      cDaiContract,
-      cDaiContractAbi,
-      cDaiDecimals,
-      daiDecimals
-    )
-    ctx.commit('pushUserVault', { ...daiVault, name: 'dai' })
 
-    const usdcVault = await _getCompoundVault(
-      ctx,
-      cUsdcContract,
-      cUsdcContractAbi,
-      cUsdcDecimals,
-      usdcDecimals
-    )
-    ctx.commit('pushUserVault', { ...usdcVault, name: 'usdc' })
-
-    const usdtVault = await _getCompoundVault(
-      ctx,
-      cUsdtContract,
-      cUsdtContractAbi,
-      cUsdtDecimals,
-      usdtDecimals
-    )
-    ctx.commit('pushUserVault', { ...usdtVault, name: 'usdt' })
+    const vaults = await _getCompoundData(ctx)
+    vaults.forEach((v) => {
+      ctx.commit('pushUserVault', v)
+    })
   },
 }
 
-async function _getCompoundVault(
-  ctx,
-  cTokenContract,
-  cTokenContractAbi,
-  cTokenDecimals,
-  underLyingDecimals
-) {
-  const ethMantissa = 1e18
-  const blocksPerDay = 4 * 60 * 24
-  const daysPerYear = 365
-  const cTokenBalance = await getTokenBalance(
-    cTokenContract,
-    cTokenContractAbi,
-    'balanceOf',
-    [ctx.rootState.ethers.address],
-    cTokenDecimals
-  )
-  const cTokenToUnderlyingExchangeRateStored = await getMultiplier(
-    cTokenContract,
-    cTokenContractAbi,
-    'exchangeRateStored',
-    0
-  )
-  const mantissa = 18 + underLyingDecimals - cTokenDecimals
-  const oneCTokenInUnderlying =
-    cTokenToUnderlyingExchangeRateStored / Math.pow(10, mantissa)
-  const underLyingBalance = oneCTokenInUnderlying * cTokenBalance
-  const supplyRatePerBlock = await callMethod(
-    cTokenContract,
-    cTokenContractAbi,
-    'supplyRatePerBlock'
-  )
-  const supplyApy =
-    Math.pow(
-      (supplyRatePerBlock / ethMantissa) * blocksPerDay + 1,
-      daysPerYear
-    ) - 1
-  const simpleVault = {
-    apy: supplyApy,
-    invested: underLyingBalance,
-  }
+async function _getCompoundData(ctx) {
+  const account = await Compound.api.account({
+    addresses: ctx.rootState.ethers.address,
+  })
 
-  return simpleVault
+  const vaults = []
+  const tempAssets = []
+  const cTokenContractAddresses = []
+  if (Object.isExtensible(account) && account.accounts) {
+    account.accounts.forEach((acc) => {
+      acc.tokens.forEach((tok) => {
+        cTokenContractAddresses.push(tok.address)
+        tempAssets.push({
+          name: tok.symbol,
+          borrow_balance: Number(tok.borrow_balance_underlying.value),
+          supply_balance: Number(tok.supply_balance_underlying.value),
+        })
+      })
+    })
+  }
+  const cTokenData = await Compound.api.cToken({
+    addresses: cTokenContractAddresses,
+  })
+
+  cTokenData.cToken.forEach((cToken) => {
+    tempAssets.forEach((ass) => {
+      if (ass.name === cToken.symbol && assetsToInclude.includes(ass.name)) {
+        vaults.push({
+          name: ass.name,
+          invested: ass.supply_balance,
+          apy: Number(cToken.supply_rate.value),
+        })
+        if (ass.borrow_balance > 0) {
+          vaults.push({
+            name: ass.name,
+            invested: -ass.borrow_balance,
+            apy: Number(cToken.borrow_rate.value),
+            type: 'borrow',
+          })
+        }
+      }
+    })
+  })
+
+  return vaults
 }

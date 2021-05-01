@@ -6,11 +6,14 @@ import {
   getLastMonthBlock,
 } from '~/helpers/ethersHelper'
 import { getApy } from '~/helpers/formulaHelper'
-import {
-  cUsdcContract,
-  cUsdcContractAbi,
-  cUsdcDecimals,
-} from '~/store/compound'
+
+const cUsdcContract = '0x39aa39c021dfbae8fac545936693ac917d5e7563'
+const cUsdcContractAbi = [
+  'function supplyRatePerBlock() external view returns (uint)',
+  'function balanceOf(address owner) external view returns (uint)',
+  'function exchangeRateStored() public view returns (uint)',
+]
+const cUsdcDecimals = 8
 
 const genericContractAbi = [
   'function supplyRatePerBlock() external view returns (uint)',
