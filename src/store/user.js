@@ -17,6 +17,7 @@ export const getters = {
       maker: rootGetters['maker/get'],
       bprotocol: rootGetters['bprotocol/get'],
       aave: rootGetters['aave/get'],
+      unit: rootGetters['unit/get'],
     }
 
     Object.keys(result).map((pos, index) => {
@@ -30,7 +31,6 @@ export const getters = {
               p.name !== 'ren')
         )
         .map((original) => {
-          console.log(original)
           const p = { ...original }
           if (p.type === 'borrow' || p.name.toLowerCase().includes('usd')) {
             return p
@@ -167,9 +167,10 @@ export const actions = {
       _fetchProject(ctx, 'cream'),
       _fetchProject(ctx, 'curve'),
       _fetchProject(ctx, 'dusd'),
-      // _fetchProject(ctx, 'maker'),
+      _fetchProject(ctx, 'maker'),
       _fetchProject(ctx, 'bprotocol'),
       _fetchProject(ctx, 'aave'),
+      _fetchProject(ctx, 'unit'),
     ])
   },
 }
@@ -181,6 +182,5 @@ async function _fetchProject(ctx, project) {
     ctx.commit('updateProjectsIsLoadingState', { project, isLoading: false })
   } catch (e) {
     ctx.commit('updateProjectsIsLoadingState', { project, isLoading: false })
-    console.log(e)
   }
 }
