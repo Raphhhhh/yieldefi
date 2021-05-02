@@ -81,7 +81,7 @@ export const getters = {
     return (
       getters
         .getPositionsByKey(key)
-        .filter((p) => p.type !== 'borrow')
+        .filter((p) => p.type !== 'borrow' && p.apy > 0)
         .reduce((acc, val) => acc + val.invested * val.apy, 0) /
         getters.getTotalInvestedByProject(key) || 0
     )

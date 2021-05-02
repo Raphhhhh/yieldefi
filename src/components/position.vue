@@ -8,7 +8,11 @@
       {{ fiatFormat(position.invested) }}
     </vs-col>
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
-      {{ vueNumberFormat(position.apy * 100, { prefix: '', suffix: '%' }) }}
+      {{
+        position.apy === 0
+          ? '-'
+          : vueNumberFormat(position.apy * 100, { prefix: '', suffix: '%' })
+      }}
     </vs-col>
   </vs-row>
 </template>

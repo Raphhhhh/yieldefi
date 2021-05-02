@@ -28,6 +28,12 @@ async function _yearnBasedFetch(
       break
     case 'pricePerShareV2OneMonth':
       multiplier = [[contract, contractAbi, 'pricePerShare', decimals]]
+      if (curveContract) {
+        multiplier = [
+          [contract, contractAbi, 'pricePerShare', decimals],
+          [curveContract, curveContractAbi, 'get_virtual_price', decimals],
+        ]
+      }
       break
     case 'curve':
       if (type2 === 'v2') {
@@ -47,7 +53,6 @@ async function _yearnBasedFetch(
       multiplier = [[contract, contractAbi, 'getPricePerFullShare', decimals]]
       break
   }
-
   const request = await getSimpleVault(
     [
       contract,
@@ -113,7 +118,8 @@ export const actions = {
           contractYearn: yv.address,
           decimals: yv.decimals,
           contractCurve:
-            yv.apy.type === 'curve'
+            yv.apy.type === 'curve' ||
+            yv.displayName.toLowerCase().includes('crv')
               ? curvePools.find(
                   (cp) =>
                     cp.addresses.lpToken.toLowerCase() ===

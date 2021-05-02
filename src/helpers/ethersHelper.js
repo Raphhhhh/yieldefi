@@ -77,6 +77,7 @@ export async function getLastWeekBlock() {
 
 export async function getSimpleVault(stakingContract, multipliers) {
   const tokenBalance = await getTokenBalance(...stakingContract)
+
   if (tokenBalance === '0.0') {
     return {
       invested: 0,
@@ -95,22 +96,36 @@ export async function getSimpleVault(stakingContract, multipliers) {
 
   const thirtyDaysAgoMultiplier = await multipliers.reduce(async (acc, val) => {
     const y = [...val, lastMonthBlock]
-    const x = await getMultiplier(...y)
-    return (await acc) * x
+    try {
+      const x = await getMultiplier(...y)
+      return (await acc) * x
+    } catch (e) {
+      return 0
+    }
   }, 1)
 
   let apy = getApy(nowMultiplier, thirtyDaysAgoMultiplier, 30)
+  if (thirtyDaysAgoMultiplier === 0) {
+    apy = 0
+  }
   if (apy > 2) {
     const sevenDaysAgoBlock = await getLastWeekBlock()
     const sevenDaysAgoMultiplier = await multipliers.reduce(
       async (acc, val) => {
         const y = [...val, sevenDaysAgoBlock]
-        const x = await getMultiplier(...y)
-        return (await acc) * x
+        try {
+          const x = await getMultiplier(...y)
+          return (await acc) * x
+        } catch (e) {
+          return 0
+        }
       },
       1
     )
     apy = getApy(nowMultiplier, sevenDaysAgoMultiplier, 7)
+    if (sevenDaysAgoMultiplier === 0) {
+      apy = 0
+    }
   }
   return {
     invested: tokenBalance * nowMultiplier,
