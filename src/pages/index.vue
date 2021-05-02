@@ -14,7 +14,20 @@
         <div :class="$style.tile">
           <div :class="$style.tileTitle">Total stables invested</div>
           <div :class="$style.tileValue">
-            {{ fiatFormat(getTotalInvested) }}
+            <vs-tooltip :class="$style.autoIncrementSwitch">
+              <vs-checkbox v-model="autoIncrementActivated">
+                <template #icon>
+                  <i class="bx bx-trending-up"></i>
+                </template>
+              </vs-checkbox>
+              <template #tooltip>
+                Most project are not compounding every blocks, but X times a
+                day. This real-time increase is estimated, and if you refresh
+                your page, you won't see the value accrued if the project have
+                not harvested yet. Click here to deactivate this feature.
+              </template>
+            </vs-tooltip>
+            <span v-html="fiatFormat(increasingTotalIncome, 5)" />
           </div>
         </div>
         <div :class="$style.tile">
@@ -84,14 +97,31 @@
 import { mapState, mapGetters } from 'vuex'
 import Project from '~/components/project'
 import Landing from '~/components/landing'
+
+function launchInterval(ctx) {
+  if (ctx.interval) {
+    clearInterval(ctx.interval)
+  }
+  ctx.nbIntervalSinceLoad = 0
+  ctx.interval = setInterval(() => ctx.nbIntervalSinceLoad++, 100)
+}
+
 export default {
   components: {
     Project,
     Landing,
   },
+  data() {
+    return {
+      nbIntervalSinceLoad: 0,
+      interval: null,
+      autoIncrementActivated: true,
+    }
+  },
   computed: {
     ...mapState({
       address: (state) => state.ethers.address,
+      chosenFiat: (state) => state.fiat.chosenFiat,
     }),
     ...mapGetters({
       projects: 'user/getProjects',
@@ -101,6 +131,7 @@ export default {
       getTotalIncomePerMonth: 'user/getTotalIncomePerMonth',
       getTotalIncomePerYear: 'user/getTotalIncomePerYear',
       getAllProjectsLoadingState: 'user/getAllProjectsLoadingState',
+      getTotalIncomePerSec: 'user/getTotalIncomePerSec',
     }),
     areCryptoVaultsEnabled: {
       get() {
@@ -110,11 +141,33 @@ export default {
         this.$store.commit('user/setAreCryptoVaultsEnabled', x)
       },
     },
+    increasingTotalIncome() {
+      return (
+        this.getTotalInvested +
+        (this.getTotalIncomePerSec / 10) * this.nbIntervalSinceLoad
+      )
+    },
   },
   watch: {
-    address(a) {
+    async address(a) {
       if (a) {
-        this.$store.dispatch('user/fetch')
+        await this.$store.dispatch('user/fetch')
+        launchInterval(this)
+      }
+    },
+    chosenFiat() {
+      launchInterval(this)
+    },
+    areCryptoVaultsEnabled() {
+      launchInterval(this)
+    },
+    autoIncrementActivated(isActive) {
+      if (isActive) {
+        launchInterval(this)
+      } else {
+        this.nbIntervalSinceLoad = 0
+        clearInterval(this.interval)
+        this.interval = null
       }
     },
   },
@@ -125,6 +178,7 @@ export default {
       }
       await this.$store.dispatch('ethers/init')
       await this.$store.dispatch('user/fetch')
+      launchInterval(this)
     }
   },
 }
@@ -147,6 +201,11 @@ export default {
       border-color $primary
     .tileTitle
       font-size 0.8em
+      position relative
+
     .tileValue
       font-size 1.5em
+      .autoIncrementSwitch
+        display inline-block
+        font-size 0.7em
 </style>

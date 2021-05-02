@@ -126,6 +126,9 @@ export const getters = {
       return acc + getters.getIncomePerProjectPerDay(project)
     }, 0)
   },
+  getTotalIncomePerSec(state, getters) {
+    return getters.getTotalIncomePerDay / 24 / 60 / 60
+  },
   getTotalIncomePerMonth(state, getters) {
     return getters.getProjects.reduce((acc, project) => {
       return acc + getters.getIncomePerProjectPerMonth(project)

@@ -139,6 +139,8 @@ body
     color $text
 *
   font-family 'Ubuntu', sans-serif
+.smallDigits
+  font-size 0.6em
 </style>
 
 <style lang="stylus" module>
