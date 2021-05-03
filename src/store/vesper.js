@@ -8,7 +8,10 @@ const contractAbi = [
   'function getPricePerShare() view returns (uint)',
   'function name() view returns (string)',
   'function decimals() view returns (uint)',
+  'function token() view returns (address)',
 ]
+
+const underlyingContractAbi = ['function decimals() view returns (uint)']
 
 const vesperContract = '0xd559ba46da65959540405c9c73f51c76c62ec119'
 const vesperContractAbi = [
@@ -22,7 +25,7 @@ export const state = () => ({
 
 export const getters = {
   get(state) {
-    return state.userVaults.filter((t) => t.invested > 0)
+    return state.userVaults.filter((t) => t.invested > 1)
   },
 }
 
@@ -79,9 +82,29 @@ async function get(ctx, address) {
   ) {
     return
   }
+
+  const decimals =
+    ethers.utils.formatUnits(await vaultContract.decimals(), 'wei') * 1
+
+  const underlyingContractAddress = vaultContract.token()
+
+  const underlyingContract = new ethers.Contract(
+    underlyingContractAddress,
+    underlyingContractAbi,
+    getProvider()
+  )
+
+  const underlyingDecimals = await underlyingContract.decimals()
+
   const request = await getSimpleVault(
-    [address, contractAbi, 'balanceOf', [ctx.rootState.ethers.address], 18],
-    [[address, contractAbi, 'getPricePerShare', 6]]
+    [
+      address,
+      contractAbi,
+      'balanceOf',
+      [ctx.rootState.ethers.address],
+      decimals,
+    ],
+    [[address, contractAbi, 'getPricePerShare', underlyingDecimals]]
   )
 
   const vault = { ...request, name }
