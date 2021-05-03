@@ -77,7 +77,6 @@ export async function getLastWeekBlock() {
 
 export async function getSimpleVault(stakingContract, multipliers) {
   const tokenBalance = await getTokenBalance(...stakingContract)
-
   if (tokenBalance === '0.0') {
     return {
       invested: 0,

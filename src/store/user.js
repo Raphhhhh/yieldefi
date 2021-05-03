@@ -18,6 +18,7 @@ export const getters = {
       bprotocol: rootGetters['bprotocol/get'],
       aave: rootGetters['aave/get'],
       unit: rootGetters['unit/get'],
+      vesper: rootGetters['vesper/get'],
     }
 
     Object.keys(result).map((pos, index) => {
@@ -174,6 +175,7 @@ export const actions = {
       _fetchProject(ctx, 'bprotocol'),
       _fetchProject(ctx, 'aave'),
       _fetchProject(ctx, 'unit'),
+      _fetchProject(ctx, 'vesper'),
     ])
   },
 }
