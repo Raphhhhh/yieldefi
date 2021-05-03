@@ -86,7 +86,7 @@ async function get(ctx, address) {
   const decimals =
     ethers.utils.formatUnits(await vaultContract.decimals(), 'wei') * 1
 
-  const underlyingContractAddress = vaultContract.token()
+  const underlyingContractAddress = await vaultContract.token()
 
   const underlyingContract = new ethers.Contract(
     underlyingContractAddress,
