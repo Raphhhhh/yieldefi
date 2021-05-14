@@ -39,7 +39,6 @@ export const mutations = {
     state.userVaults = []
   },
 }
-
 export const actions = {
   async fetch(ctx) {
     ctx.commit('resetVaults')
