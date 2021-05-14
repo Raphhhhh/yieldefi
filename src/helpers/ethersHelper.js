@@ -107,7 +107,7 @@ export async function getSimpleVault(stakingContract, multipliers) {
   if (thirtyDaysAgoMultiplier === 0) {
     apy = 0
   }
-  if (apy > 2) {
+  if (apy > 2 || apy === 0) {
     const sevenDaysAgoBlock = await getLastWeekBlock()
     const sevenDaysAgoMultiplier = await multipliers.reduce(
       async (acc, val) => {
