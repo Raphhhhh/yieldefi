@@ -12,12 +12,14 @@ export async function getTokenBalance(
   const contract = new ethers.Contract(contractAddress, abi, getProvider())
   if (contract) {
     const balance = await contract[methodName](...args)
-    return ethers.utils.formatUnits(
-      Array.isArray(balance) ? balance[0] : balance,
-      decimals
-    )
+    return Array.isArray(balance)
+      ? balance.reduce(
+          (a, b) =>
+            Number.parseFloat(ethers.utils.formatUnits(a, decimals)) +
+            Number.parseFloat(ethers.utils.formatUnits(b, decimals))
+        )
+      : ethers.utils.formatUnits(balance, decimals)
   }
-  return 0
 }
 
 export async function getMultiplier(
