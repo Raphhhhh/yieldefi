@@ -76,18 +76,17 @@ export const actions = {
 
     for (const gaugeBoost of results) {
       const gaugeContractAddress = gaugeBoost.gauge
-      const pool = pools.find(
-        (p) =>
-          p.addresses &&
-          p.addresses.gauge &&
-          p.addresses.gauge.toLowerCase() === gaugeContractAddress.toLowerCase()
+      const poolsArray = Object.values(pools)
+      const pool = poolsArray.find(
+        (p) => p.gauge.toLowerCase() === gaugeContractAddress.toLowerCase()
       )
+
       if (
         !pool ||
-        (pool.referenceAsset !== 'usd' &&
-          pool.referenceAsset !== 'eur' &&
-          pool.referenceAsset !== 'btc' &&
-          pool.referenceAsset !== 'eth')
+        (pool.type !== 'stable' &&
+          pool.type !== 'tether-eurt' &&
+          pool.type !== 'bitcoin' &&
+          pool.type !== 'ethereum')
       ) {
         continue
       }
@@ -107,7 +106,7 @@ export const actions = {
       )
 
       const swapContract = new ethers.Contract(
-        pool.addresses.swap,
+        pool.swap,
         swapContractAbi,
         getProvider()
       )
@@ -126,14 +125,14 @@ export const actions = {
       const workingSupply = ethers.utils.formatEther(call[3].value)
 
       let unit
-      switch (pool.referenceAsset) {
-        case 'eur':
+      switch (pool.type) {
+        case 'tether-eurt':
           unit = ctx.rootState.fiat.rates.EUR
           break
-        case 'btc':
+        case 'bitcoin':
           unit = ctx.rootState.tokens.rates.bitcoin.usd
           break
-        case 'eth':
+        case 'ethereum':
           unit = ctx.rootState.tokens.rates.ethereum.usd
           break
 
@@ -148,9 +147,9 @@ export const actions = {
           0.4) /
         virtualPrice
       const apy = rate * crvPrice * userBoost
-
+      const poolName = Object.keys(pools)[poolsArray.indexOf(pool)]
       ctx.commit('pushUserVault', {
-        name: pool.name,
+        name: poolName,
         invested:
           parseFloat(ethers.utils.formatUnits(call[1].value, 18)) *
           virtualPrice,
