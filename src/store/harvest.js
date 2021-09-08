@@ -4,6 +4,8 @@ import harvestPools from '~/pools/harvestPools'
 import harvestVaults from '~/pools/harvestVaults'
 import curvePools from '~/pools/curvePools'
 
+const curvePoolsArray = Object.values(curvePools)
+
 // commons
 const stakingContractAbi = ['function balanceOf(address) view returns (uint)']
 const contractAbi = ['function getPricePerFullShare() view returns (uint)']
@@ -100,13 +102,13 @@ export const actions = {
           stakingContract: h.contractAddress,
           decimals: h.lpTokenData.decimals,
           curveContract: h.id.toLowerCase().includes('curve')
-            ? curvePools.find(
+            ? curvePoolsArray.find(
                 (c) =>
-                  c.addresses.lpToken.toLowerCase() ===
+                  c.swap_token.toLowerCase() ===
                   harvestVaults
                     .find((v) => v.symbol === h.lpTokenData.symbol)
                     .underlying.address.toLowerCase()
-              ).addresses.swap
+              ).swap
             : null,
         }
       })

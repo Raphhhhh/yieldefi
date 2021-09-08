@@ -3,6 +3,8 @@ import { getSimpleVault } from '~/helpers/ethersHelper'
 import curvePools from '~/pools/curvePools'
 import yearnVaults from '~/pools/yearnVaults'
 
+const curvePoolsArray = Object.values(curvePools)
+
 const contractAbi = [
   'function balanceOf(address) view returns (uint)',
   'function getPricePerFullShare() view returns (uint)',
@@ -104,35 +106,38 @@ export const actions = {
               yv.displayName.toLowerCase().includes('crvib') ||
               yv.displayName.toLowerCase().includes('aave') ||
               yv.displayName.toLowerCase().includes('eur') ||
+              yv.displayName.toLowerCase().includes('mim') ||
               yv.displayName.toLowerCase() === 'ycrv' ||
               yv.displayName.toLowerCase().includes('dai')) &&
-            yv.apy &&
-            (yv.apy.type === 'curve' ||
+            (yv.apy || yv.displayName === 'crvMIM') &&
+            (!yv.apy ||
+              yv.apy.type === 'curve' ||
               yv.apy.type === 'pricePerShareV2OneMonth' ||
               yv.apy.type === 'pricePerShareV1OneMonth')
         )
         .map((yv) => {
           return {
-            type: yv.apy.type,
+            type: yv.apy ? yv.apy.type : 'curve',
             type2: yv.type,
             name: yv.displayName,
             contractYearn: yv.address,
             decimals: yv.decimals,
             contractCurve:
+              !yv.apy ||
               yv.apy.type === 'curve' ||
               yv.displayName.toLowerCase().includes('crv')
-                ? curvePools.find(
+                ? curvePoolsArray.find(
                     (cp) =>
                       cp &&
-                      cp.addresses.lpToken.toLowerCase() ===
+                      cp.swap_token.toLowerCase() ===
                         yv.token.address.toLowerCase()
                   )
-                  ? curvePools.find(
+                  ? curvePoolsArray.find(
                       (cp) =>
                         cp &&
-                        cp.addresses.lpToken.toLowerCase() ===
+                        cp.swap_token.toLowerCase() ===
                           yv.token.address.toLowerCase()
-                    ).addresses.swap
+                    ).swap
                   : yv.token && yv.token.address
                   ? yv.token.address
                   : ''
